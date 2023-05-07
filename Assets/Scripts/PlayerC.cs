@@ -4,25 +4,42 @@ using UnityEngine;
 
 public class PlayerC : MonoBehaviour
 {
+    [Header("Movement")]
     Rigidbody rb;
-
-    float moveX;
-    float moveY;
+    [SerializeField] float moveSpeed;
+    [SerializeField] Transform orientation;
+    float horizontalInput;
+    float verticalInput;
+    Vector3 moveDirection;
     
     
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
     }
     
     void Update()
     {
-        moveX = Input.GetAxisRaw("horizontal");
-        // moveY = Input.GetAxisRaw("vertical");
+        GetInputs();
+        
     }
 
     void FixedUpdate() 
     {
-        rb.velocity = new Vector3(moveX, 0, 0);
+        MovePlayer();
+    }
+
+    void GetInputs()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+    }
+
+    void MovePlayer()
+    {
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+        rb.AddForce(moveDirection.normalized * moveSpeed, ForceMode.Force);
     }
 }
