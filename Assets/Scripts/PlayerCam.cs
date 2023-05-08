@@ -7,14 +7,15 @@ public class PlayerCam : MonoBehaviour
     [SerializeField] float sensX;
     [SerializeField] float sensY;
     [SerializeField] Transform orientation;
-    [SerializeField] Transform player;
     float xRotaion;
     float yRotaion;
+    [SerializeField] Transform followObject;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        transform.position = new Vector3(followObject.position.x, followObject.position.y, followObject.position.z + 0.15f);
     }
 
     void Update()

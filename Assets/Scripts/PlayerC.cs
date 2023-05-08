@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerC : MonoBehaviour
 {
+    [SerializeField] GameObject playerSprite;
     [Header("Movement")]
     [SerializeField] float moveSpeed;
     [SerializeField] Transform orientation;
@@ -14,7 +15,7 @@ public class PlayerC : MonoBehaviour
     bool readyToJump = true;
 
     [Header("Ground Check")]
-    [SerializeField] float playerHeight;
+    [SerializeField] float halfPlayerHeight;
     [SerializeField] LayerMask groundLayer;
     bool isGrounded;
 
@@ -25,18 +26,25 @@ public class PlayerC : MonoBehaviour
     float horizontalInput;
     float verticalInput;
     Vector3 moveDirection;
+
+    Animator playerAnim;
+    string _currentState;
+    string WALK = "walking";
+    string IDLE = "idle";
     
     
     
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        playerAnim = playerSprite.GetComponent<Animator>();
         rb.freezeRotation = true;
     }
     
     void Update()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.05f, groundLayer);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, halfPlayerHeight + 0.05f, groundLayer);
+        Debug.Log(isGrounded);
 
         GetInputs();
         
@@ -114,6 +122,14 @@ public class PlayerC : MonoBehaviour
 
     void AnimationState()
     {
+        if (Mathf.Abs(rb.velocity.x) < 0.5f || Mathf.Abs(rb.velocity.z) < 0.5f)
+        {
+            ChangeAnimationState(IDLE);
+        } else
+        {
+            ChangeAnimationState(WALK);
+        }
+
 
     }
 
@@ -124,7 +140,7 @@ public class PlayerC : MonoBehaviour
             return;
         }
 
-        anim.Play(newState);
+        playerAnim.Play(newState);
         _currentState = newState;
     }
 
@@ -141,6 +157,6 @@ public class PlayerC : MonoBehaviour
 
     void OnDrawGizmos() 
     {
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y -0.05f, transform.position.z));    
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - halfPlayerHeight - 0.05f, transform.position.z));    
     }
 }
