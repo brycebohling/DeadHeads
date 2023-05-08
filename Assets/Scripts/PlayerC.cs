@@ -27,6 +27,7 @@ public class PlayerC : MonoBehaviour
     Vector3 moveDirection;
     
     
+    
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -52,6 +53,8 @@ public class PlayerC : MonoBehaviour
     {
         MovePlayer();
         SpeedControl();
+
+        AnimationState();
     }
 
     void GetInputs()
@@ -109,7 +112,34 @@ public class PlayerC : MonoBehaviour
         readyToJump = true; 
     }
 
-    private void OnDrawGizmos() 
+    void AnimationState()
+    {
+
+    }
+
+    void ChangeAnimationState(string newState)
+    {
+        if (newState == _currentState)
+        {
+            return;
+        }
+
+        anim.Play(newState);
+        _currentState = newState;
+    }
+
+    bool IsAnimationPlaying(Animator animator, string stateName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    void OnDrawGizmos() 
     {
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y -0.05f, transform.position.z));    
     }
