@@ -7,6 +7,7 @@ public class PlayerCam : MonoBehaviour
     [SerializeField] float sensX;
     [SerializeField] float sensY;
     [SerializeField] Transform orientation;
+    [SerializeField] Transform player;
     float xRotaion;
     float yRotaion;
 
@@ -14,6 +15,8 @@ public class PlayerCam : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        
     }
 
     void Update()
@@ -26,7 +29,7 @@ public class PlayerCam : MonoBehaviour
         xRotaion += mouseY;
         xRotaion = Mathf.Clamp(xRotaion, -90f, 90f);
 
-        transform.rotation = Quaternion.Euler(xRotaion, yRotaion, 0);
+        transform.rotation = Quaternion.Euler(-xRotaion, yRotaion, 0);
         orientation.rotation = Quaternion.Euler(0, yRotaion, 0);
     }
 }
