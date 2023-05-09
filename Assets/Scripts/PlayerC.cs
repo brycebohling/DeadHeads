@@ -4,159 +4,45 @@ using UnityEngine;
 
 public class PlayerC : MonoBehaviour
 {
-    [SerializeField] GameObject playerSprite;
-    [Header("Movement")]
-    [SerializeField] float moveSpeed;
-    [SerializeField] Transform orientation;
-    [SerializeField] float groundDrag;
-    [SerializeField] float jumpForce;
-    [SerializeField] float jumpCooldown;
-    [SerializeField] float airMultiplier;
-    bool readyToJump = true;
+    private CharacterController controller;
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
+    [SerializeField] private float playerSpeed = 2.0f;
+    [SerializeField] private float jumpHeight = 1.0f;
+    private float gravityValue = -9.81f;
+    [SerializeField] private Transform mainCamera;
 
-    [Header("Ground Check")]
-    [SerializeField] float halfPlayerHeight;
-    [SerializeField] LayerMask groundLayer;
-    bool isGrounded;
 
-    [Header("Keybinds")]
-    [SerializeField] KeyCode jumpKey = KeyCode.Space;
-
-    Rigidbody rb;
-    float horizontalInput;
-    float verticalInput;
-    Vector3 moveDirection;
-
-    Animator playerAnim;
-    string _currentState;
-    string WALK = "walking";
-    string IDLE = "idle";
-    
-    
-    
-    void Start()
+    private void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
-        playerAnim = playerSprite.GetComponent<Animator>();
-        rb.freezeRotation = true;
+        controller = gameObject.GetComponent<CharacterController>();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
     }
-    
+
     void Update()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, halfPlayerHeight + 0.05f, groundLayer);
-        Debug.Log(isGrounded);
-
-        GetInputs();
-        
-        if (isGrounded)
+        groundedPlayer = controller.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0)
         {
-            rb.drag = groundDrag;
-        } else
-        {
-            rb.drag = 0f;
-        }
-    }
-
-    void FixedUpdate() 
-    {
-        MovePlayer();
-        SpeedControl();
-
-        AnimationState();
-    }
-
-    void GetInputs()
-    {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (Input.GetKey(jumpKey) && readyToJump && isGrounded)
-        {
-            readyToJump = false;
-
-            Jump();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
-        }
-    }
-
-    void MovePlayer()
-    {
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-        if (isGrounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed, ForceMode.Force);
-        } else if (!isGrounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * airMultiplier, ForceMode.Force);
+            playerVelocity.y = 0f;
         }
 
-        transform.rotation = orientation.rotation;
-    }
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        move = mainCamera.forward * move.z + mainCamera.right * move.x;
+        move.y = 0f;
 
-    void SpeedControl()
-    {
-        Vector3 flatVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        transform.localEulerAngles = new Vector3(0f, mainCamera.eulerAngles.y, 0f);
 
-        if (flatVelocity.magnitude > moveSpeed)
+        controller.Move(move * Time.deltaTime * playerSpeed);
+
+        if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
-            Vector3 limitedVelocity = flatVelocity.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
-        }
-    }
-
-    void Jump()
-    {
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
-
-    }
-
-    void ResetJump()
-    {
-        readyToJump = true; 
-    }
-
-    void AnimationState()
-    {
-        if (Mathf.Abs(rb.velocity.x) < 0.5f || Mathf.Abs(rb.velocity.z) < 0.5f)
-        {
-            ChangeAnimationState(IDLE);
-        } else
-        {
-            ChangeAnimationState(WALK);
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
 
-
-    }
-
-    void ChangeAnimationState(string newState)
-    {
-        if (newState == _currentState)
-        {
-            return;
-        }
-
-        playerAnim.Play(newState);
-        _currentState = newState;
-    }
-
-    bool IsAnimationPlaying(Animator animator, string stateName)
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
-    }
-
-    void OnDrawGizmos() 
-    {
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - halfPlayerHeight - 0.05f, transform.position.z));    
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
     }
 }
