@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerC : MonoBehaviour
 {
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
-    [SerializeField] private float playerSpeed = 2.0f;
-    [SerializeField] private float jumpHeight = 1.0f;
-    private float gravityValue = -9.81f;
-    [SerializeField] private Transform mainCamera;
+    CharacterController controller;
+    Vector3 playerVelocity;
+    bool groundedPlayer;
+    [SerializeField] float playerSpeed = 2.0f;
+    [SerializeField] float jumpHeight = 1.0f;
+    float gravityValue = -9.81f;
+    [SerializeField] Transform mainCamera;
 
 
     private void Start()
@@ -21,7 +21,7 @@ public class PlayerC : MonoBehaviour
         
     }
 
-    void Update()
+    private void Update()
     {
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
