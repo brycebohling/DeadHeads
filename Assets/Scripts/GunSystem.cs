@@ -23,7 +23,8 @@ public class GunSystem : MonoBehaviour
 
     //Graphics
     [SerializeField] GameObject muzzleFlash, bulletHoleGraphic;
-    // public CamShake camShake;
+    [SerializeField] TrailRenderer bulletTrail;
+
     [SerializeField] float camShakeMagnitude, camShakeDuration;
     [SerializeField] TextMeshProUGUI text;
 
@@ -76,8 +77,10 @@ public class GunSystem : MonoBehaviour
         CameraShake.Instance.ShakeCamera(camShakeMagnitude, camShakeDuration);
 
         //Graphics
-        // Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
+        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
         Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+        TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
+        StartCoroutine(SpawnTrail(trail, rayHit));
 
         bulletsLeft--;
         bulletsShot--;
@@ -100,5 +103,24 @@ public class GunSystem : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         reloading = false;
+    }
+
+    private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
+    {
+        float time = 0f;
+        Vector3 startPos = trail.transform.position;
+
+        while (time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(startPos, hit.point, time);
+
+            time += Time.deltaTime / trail.time;
+
+            yield return null;
+        }
+
+        trail.transform.position = hit.point;
+
+        Destroy(trail.gameObject, trail.time);
     }
 }

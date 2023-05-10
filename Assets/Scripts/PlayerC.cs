@@ -28,7 +28,7 @@ public class PlayerC : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
-
+        
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         move = mainCamera.forward * move.z + mainCamera.right * move.x;
         move.y = 0f;
