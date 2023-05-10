@@ -16,7 +16,7 @@ public class GunSystem : MonoBehaviour
     bool shooting, readyToShoot, reloading;
 
     //Reference
-    [SerializeField] Camera fpsCam;
+    [SerializeField] Camera mainCamera;
     [SerializeField] Transform attackPoint;
     [SerializeField] RaycastHit rayHit;
     [SerializeField] LayerMask whatIsEnemy;
@@ -61,10 +61,10 @@ public class GunSystem : MonoBehaviour
         float y = Random.Range(-spread, spread);
 
         //Calculate Direction with Spread
-        Vector3 direction = fpsCam.transform.forward + new Vector3(x, y, 0);
+        Vector3 direction = mainCamera.transform.forward + new Vector3(x, y, 0);
 
         //RayCast
-        if (Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy))
+        if (Physics.Raycast(mainCamera.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
             Debug.Log(rayHit.collider.name);
 
