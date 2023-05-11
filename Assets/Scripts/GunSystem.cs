@@ -18,8 +18,10 @@ public class GunSystem : MonoBehaviour
     //Reference
     [SerializeField] Camera mainCamera;
     [SerializeField] Transform attackPoint;
-    [SerializeField] RaycastHit rayHit;
+    [SerializeField] RaycastHit rayHitEnemy;
+    [SerializeField] RaycastHit rayHitSomething;
     [SerializeField] LayerMask whatIsEnemy;
+    [SerializeField] ShootingEnemy shootingEnemyScript;
 
     //Graphics
     [SerializeField] GameObject muzzleFlash, bulletHoleGraphic;
@@ -40,6 +42,7 @@ public class GunSystem : MonoBehaviour
         //SetText
         text.SetText(bulletsLeft + " / " + magazineSize);
     }
+
     private void MyInput()
     {
         if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
@@ -53,6 +56,7 @@ public class GunSystem : MonoBehaviour
             Shoot();
         }
     }
+
     private void Shoot()
     {
         readyToShoot = false;
@@ -65,22 +69,27 @@ public class GunSystem : MonoBehaviour
         Vector3 direction = mainCamera.transform.forward + new Vector3(x, y, 0);
 
         //RayCast
-        if (Physics.Raycast(mainCamera.transform.position, direction, out rayHit, range, whatIsEnemy))
-        {
-            Debug.Log(rayHit.collider.name);
+        bool hitEnemy = Physics.Raycast(mainCamera.transform.position, direction, out rayHitEnemy, range, whatIsEnemy);
+        bool hitSomthing = Physics.Raycast(mainCamera.transform.position, direction, out rayHitSomething, range);
 
-            // if (rayHit.collider.CompareTag("Enemy"))
-                // rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
+        if (hitEnemy)
+        {
+            shootingEnemyScript.DmgEnemy(damage, rayHitEnemy.collider);
+            TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
+            StartCoroutine(SpawnTrail(trail, rayHitEnemy));
+            
+        } else if (hitSomthing)
+        {
+            TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
+            StartCoroutine(SpawnTrail(trail, rayHitEnemy));
         }
 
         //ShakeCamera
         CameraShake.Instance.ShakeCamera(camShakeMagnitude, camShakeDuration);
 
-        //Graphics
-        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
-        Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
-        TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
-        StartCoroutine(SpawnTrail(trail, rayHit));
+        //Graphics 
+        Instantiate(bulletHoleGraphic, rayHitEnemy.point, Quaternion.LookRotation(rayHitEnemy.normal));
+        Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);        
 
         bulletsLeft--;
         bulletsShot--;
@@ -90,15 +99,18 @@ public class GunSystem : MonoBehaviour
         if(bulletsShot > 0 && bulletsLeft > 0)
         Invoke("Shoot", timeBetweenShots);
     }
+
     private void ResetShot()
     {
         readyToShoot = true;
     }
+
     private void Reload()
     {
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
+
     private void ReloadFinished()
     {
         bulletsLeft = magazineSize;

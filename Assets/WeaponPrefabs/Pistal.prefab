@@ -122,10 +122,12 @@ MonoBehaviour:
   attackPoint: {fileID: 1373032100048852598}
   whatIsEnemy:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
   muzzleFlash: {fileID: 1126046646508270, guid: f913bc3b5f93c1d4cac760813a9a6bf1,
     type: 3}
   bulletHoleGraphic: {fileID: 1364626547466708, guid: 3b1aa7e77622ff048b50275424ccd519,
+    type: 3}
+  bulletTrail: {fileID: 4980242198854654724, guid: 895cb0a347a1c4896978523cca504327,
     type: 3}
   camShakeMagnitude: 0.2
   camShakeDuration: 0.1
