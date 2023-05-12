@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GunSystem : MonoBehaviour
+public class GunStatsSystem : MonoBehaviour
 {
     //Gun stats
     [SerializeField] int damage;
