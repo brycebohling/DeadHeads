@@ -85,7 +85,7 @@ public class GunSystem : MonoBehaviour
         }
 
         //ShakeCamera
-        CameraShake.Instance.ShakeCamera(camShakeMagnitude, camShakeDuration);
+        // CameraShake.Instance.ShakeCamera(camShakeMagnitude, camShakeDuration);
 
         //Graphics 
         Instantiate(bulletHoleGraphic, rayHitEnemy.point, Quaternion.LookRotation(rayHitEnemy.normal));
