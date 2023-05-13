@@ -152,7 +152,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 412344728}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &113990418
 GameObject:
@@ -449,7 +449,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 412344728}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &211224417
 GameObject:
@@ -815,59 +815,16 @@ MonoBehaviour:
   rail: {fileID: 1784003196653982, guid: 0bc4e332070b2574e859eab4fe9b9773, type: 3}
   railAttachPoint: {fileID: 66339300}
   weaponBodyListSO: {fileID: 11400000, guid: 664bb1560cdd9433b993b7f34f8ad12a, type: 2}
-  grips:
-  - {fileID: 1410610304495524, guid: 31f4f92f7a2783c498ff08e2bb648dbc, type: 3}
-  - {fileID: 1576853401778360, guid: 06c8ead7ec965ca429c7d5561cec1f28, type: 3}
-  - {fileID: 1887310397710108, guid: a1cdfc1e301f4e34c80f9a0c639a59b8, type: 3}
   currentGrip: {fileID: 0}
   gripAttachPoint: {fileID: 978866920}
-  stocks:
-  - {fileID: 1419576776001516, guid: d8efb95de98f4bc498c2237e65498fc3, type: 3}
-  - {fileID: 1484999405887804, guid: a0b076f9de69fcc48819061660cca01c, type: 3}
-  - {fileID: 6304772175721608663, guid: 055e3539aafe94b14b550e6b0f4e939d, type: 3}
-  - {fileID: 1867226363272598, guid: 1f390d663b1b7fa4784f4b950bec3556, type: 3}
-  - {fileID: 1879074420594772, guid: a7551154980dfc64dbd8fbef4edad23a, type: 3}
-  - {fileID: 1847564543334802, guid: 7bdf70ca6f4ec404fa792bba9b6efa5b, type: 3}
-  - {fileID: 1913820469560010, guid: 1c60166fb1387cc4e8de7c22e8fc4704, type: 3}
-  - {fileID: 1568522065114064, guid: 900774c659939cf41980e0c102089e90, type: 3}
   currentStock: {fileID: 0}
   stockAttachPoint: {fileID: 1994602227}
-  scopes:
-  - {fileID: 1632117584443096, guid: a5f96ee709aa47e46a17edd0955c756e, type: 3}
-  - {fileID: 1242899488601990, guid: 102c0991da23e1e4181ea5e3694aa8ce, type: 3}
-  - {fileID: 1601405959989486, guid: 73817da27952e9144850baf83816c36a, type: 3}
-  - {fileID: 1057882598200570, guid: 752d7599581b3004798189c5c0bc9731, type: 3}
-  - {fileID: 1688903224636864, guid: 77433a509952f5947a4efec87b84550e, type: 3}
-  - {fileID: 1421519406005162, guid: ae1d88624bbe3a3409ac6c9bc5ea9bcb, type: 3}
-  - {fileID: 1803123784931580, guid: e6d2e2ab263fb4a45863261819498e94, type: 3}
-  - {fileID: 1941756591849396, guid: 886721a110fc7be4898b1b4109acbb35, type: 3}
-  - {fileID: 1200087030526520, guid: 8c20807b786fd174091ab0f1c65c9c70, type: 3}
-  - {fileID: 1490402153527656, guid: cf1516e386eb306499452820da21ee93, type: 3}
-  - {fileID: 1637051980639712, guid: e7dec10a27b4323458752542110fd8b4, type: 3}
-  - {fileID: 1751771208587822, guid: bfe9ff791857f5145a63a10c1692fc19, type: 3}
-  - {fileID: 1831414169744994, guid: a76e7949cd0f1484f98d7258bca70452, type: 3}
-  - {fileID: 1457074589251972, guid: b871f88d175ae324bb59e90c1f1549b4, type: 3}
-  - {fileID: 1047115101663054, guid: 4e4d86eea3efa1b468b4a222c8dda7ba, type: 3}
-  - {fileID: 1215386998680682, guid: 1aafa756cecacad4c8c40f57828c6b44, type: 3}
-  - {fileID: 1896550228845456, guid: 6c8ef82db0bd94c42918cb4e385c0c38, type: 3}
-  - {fileID: 1328099849722202, guid: 0489c980c9103e74d8862f2745c74c2c, type: 3}
-  - {fileID: 1409262723568388, guid: 9dc5c27f6881397449a454b29f3d66d7, type: 3}
-  - {fileID: 1862953817498416, guid: 100b069c0f92ea447ba557f3c6f08284, type: 3}
-  - {fileID: 1088738153202680, guid: 6c1e3044afeedd047adaa9b5298a504e, type: 3}
   currentScope: {fileID: 0}
   scopeAttachPoint: {fileID: 1699723536}
-  mags:
-  - {fileID: 1407110048202902, guid: 37af3ea05f65d6b4e9a908218ae4786c, type: 3}
-  - {fileID: 1501879838907220, guid: 98d64e1ba5c40c64d994519593992de0, type: 3}
-  - {fileID: 1785292791707622, guid: 47ffd00813ef1804a97396624ef490e7, type: 3}
-  - {fileID: 1159489623021366, guid: facb4a71a755c9042a03f135d11135f5, type: 3}
-  - {fileID: 1968714588955312, guid: b48c09f3285bc20439d4ea0fb9e5f80b, type: 3}
-  - {fileID: 1000445967190448, guid: 63fa8de42a832a74cad721fc3580c525, type: 3}
-  - {fileID: 1713737723348446, guid: 239ede39d6b1274439f33c16da2c2782, type: 3}
-  - {fileID: 1987282599966964, guid: 0f5866b093662bc4fb8e799e5cf0690a, type: 3}
-  - {fileID: 1675174649049174, guid: 550ad6766efc3ac4c8a69d6e2597cff9, type: 3}
   currentMag: {fileID: 0}
   magAttachPoint: {fileID: 197552951}
+  currentBarrel: {fileID: 0}
+  barrelAttachPoint: {fileID: 2070331116}
 --- !u!4 &412344728
 Transform:
   m_ObjectHideFlags: 0
@@ -880,11 +837,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 66339300}
   - {fileID: 978866920}
   - {fileID: 1994602227}
   - {fileID: 1699723536}
   - {fileID: 197552951}
-  - {fileID: 66339300}
+  - {fileID: 2070331116}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1156,7 +1114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 412344728}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1233494912
 PrefabInstance:
@@ -1563,7 +1521,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 412344728}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1994602226
 GameObject:
@@ -1594,7 +1552,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 412344728}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014982507
 GameObject:
@@ -1643,6 +1601,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Effectors: []
+--- !u!1 &2070331115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2070331116}
+  m_Layer: 0
+  m_Name: BarrelAttachPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2070331116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070331115}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.103, z: 0.197}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 412344728}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1334796593651127
 GameObject:
   m_ObjectHideFlags: 0

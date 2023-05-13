@@ -13,24 +13,24 @@ public class WeaponAttachmentSystem : MonoBehaviour
     [SerializeField] WeaponBodyListSO weaponBodyListSO;
 
     [Header("Grip")]
-    [SerializeField] List<GameObject> grips = new List<GameObject>();
     [SerializeField] GameObject currentGrip;
     [SerializeField] Transform gripAttachPoint;
 
     [Header("Stock")]
-    [SerializeField] List<GameObject> stocks = new List<GameObject>();
     [SerializeField] GameObject currentStock;
     [SerializeField] Transform stockAttachPoint;
 
     [Header("Scope")]
-    [SerializeField] List<GameObject> scopes = new List<GameObject>();
     [SerializeField] GameObject currentScope;
     [SerializeField] Transform scopeAttachPoint;
 
     [Header("Mag")]
-    [SerializeField] List<GameObject> mags = new List<GameObject>();
     [SerializeField] GameObject currentMag;
     [SerializeField] Transform magAttachPoint;
+
+    [Header("Barrel")]
+    [SerializeField] GameObject currentBarrel;
+    [SerializeField] Transform barrelAttachPoint;
 
     private void Start() 
     {
@@ -54,6 +54,10 @@ public class WeaponAttachmentSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             ChangeMag();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            ChangeBarrel();
         }
     }
 
@@ -143,36 +147,29 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentMag.transform.localPosition = Vector3.zero;
     }
 
-    // public void SetPart(WeaponPartSO weaponPartSO) {
-    //     // Destroy currently attached part
-    //     if (attachedWeaponPartDic[weaponPartSO.partType].spawnedTransform != null) {
-    //         Destroy(attachedWeaponPartDic[weaponPartSO.partType].spawnedTransform.gameObject);
-    //     }
+    public void ChangeBarrel() 
+    {
+        Debug.Log("HEKJANSD");
+        // Remove Barrel from before
+        Destroy(currentBarrel);
 
-    //     // Spawn new part
-    //     Transform spawnedPartTransform = Instantiate(weaponPartSO.prefab);
-    //     AttachedWeaponPart attachedWeaponPart = attachedWeaponPartDic[weaponPartSO.partType];
-    //     attachedWeaponPart.spawnedTransform = spawnedPartTransform;
+        // Creates new Barrel
+        List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Barrel);
 
-    //     Transform attachPointTransform = attachedWeaponPart.partTypeAttachPoint.attachPointTransform;
-    //     spawnedPartTransform.parent = attachPointTransform;
-    //     spawnedPartTransform.localEulerAngles = Vector3.zero;
-    //     spawnedPartTransform.localPosition = Vector3.zero;
+        int randomIndex = Random.Range(0, listOfPartTypes.Count);
+        
+        GameObject prefab = listOfPartTypes[randomIndex].prefab;
+        currentBarrel = Instantiate(prefab);
 
-    //     attachedWeaponPart.weaponPartSO = weaponPartSO;
+        currentBarrel.transform.parent = barrelAttachPoint;
+        currentBarrel.transform.localEulerAngles = Vector3.zero;
+        currentBarrel.transform.localPosition = Vector3.zero;
 
-    //     attachedWeaponPartDic[weaponPartSO.partType] = attachedWeaponPart;
+        // WeaponBarrelSO weaponBarrelSO = (WeaponBarrelSO)listOfPartTypes[randomIndex];
 
-    //     // Is it a barrel?
-    //     if (weaponPartSO.partType == WeaponPartSO.PartType.Barrel) {
-    //         BarrelWeaponPartSO barrelWeaponPartSO = (BarrelWeaponPartSO)weaponPartSO;
+        // float offset = weaponBarrelSO.muzzleOffset;
 
-    //         AttachedWeaponPart barrelPartTypeAttachedWeaponPart = attachedWeaponPartDic[WeaponPartSO.PartType.Barrel];
-    //         AttachedWeaponPart muzzlePartTypeAttachedWeaponPart = attachedWeaponPartDic[WeaponPartSO.PartType.Muzzle];
-
-    //         muzzlePartTypeAttachedWeaponPart.partTypeAttachPoint.attachPointTransform.position =
-    //             barrelPartTypeAttachedWeaponPart.partTypeAttachPoint.attachPointTransform.position +
-    //             barrelPartTypeAttachedWeaponPart.partTypeAttachPoint.attachPointTransform.forward * barrelWeaponPartSO.muzzleOffset;
-    //     }
-    // }
+        // currentBarrel.transform.localPosition = barrelAttachPoint.position + transform.forward * offset;
+        
+    }
 }
