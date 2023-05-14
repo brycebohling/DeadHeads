@@ -21,6 +21,7 @@ public class GunStatsSystem : MonoBehaviour
     [SerializeField] RaycastHit rayHitEnemy;
     [SerializeField] RaycastHit rayHitSomething;
     [SerializeField] LayerMask whatIsEnemy;
+    [SerializeField] LayerMask enviormentLayer;
     [SerializeField] ShootingEnemy shootingEnemyScript;
 
     //Graphics
@@ -70,26 +71,32 @@ public class GunStatsSystem : MonoBehaviour
 
         //RayCast
         bool hitEnemy = Physics.Raycast(mainCamera.transform.position, direction, out rayHitEnemy, range, whatIsEnemy);
-        bool hitSomthing = Physics.Raycast(mainCamera.transform.position, direction, out rayHitSomething, range);
+        bool hitSomthing = Physics.Raycast(mainCamera.transform.position, direction, out rayHitSomething, range, enviormentLayer);
 
         if (hitEnemy)
         {
             shootingEnemyScript.DmgEnemy(damage, rayHitEnemy.collider);
             TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, rayHitEnemy));
+
+            GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHitEnemy.point, Quaternion.LookRotation(rayHitEnemy.normal));
+            Destroy(bulletHole, 5);
             
         } else if (hitSomthing)
         {
             TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
-            StartCoroutine(SpawnTrail(trail, rayHitEnemy));
+            StartCoroutine(SpawnTrail(trail, rayHitSomething));
+            
+            GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHitSomething.point, Quaternion.LookRotation(rayHitSomething.normal));
+            Destroy(bulletHole, 5);
         }
 
         //ShakeCamera
         // CameraShake.Instance.ShakeCamera(camShakeMagnitude, camShakeDuration);
 
         //Graphics 
-        Instantiate(bulletHoleGraphic, rayHitEnemy.point, Quaternion.LookRotation(rayHitEnemy.normal));
-        Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);        
+        GameObject flash = Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);        
+        Destroy(flash, 3);
 
         bulletsLeft--;
         bulletsShot--;

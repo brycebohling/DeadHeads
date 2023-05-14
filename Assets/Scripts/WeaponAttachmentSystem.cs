@@ -149,7 +149,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     public void ChangeBarrel() 
     {
-        Debug.Log("HEKJANSD");
         // Remove Barrel from before
         Destroy(currentBarrel);
 
