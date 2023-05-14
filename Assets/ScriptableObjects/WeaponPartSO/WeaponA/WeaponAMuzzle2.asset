@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd506078f40249bbbe0c934b64648d1, type: 3}
-  m_Name: WeaponABarrel2
+  m_Script: {fileID: 11500000, guid: df465c9f0727649de93dc9202e873798, type: 3}
+  m_Name: WeaponAMuzzle2
   m_EditorClassIdentifier: 
-  partType: 3
-  prefab: {fileID: 1957214354575208, guid: 802ac6ad963c72742a2cd955386b005b, type: 3}
-  statType: 3
+  partType: 4
+  prefab: {fileID: 1647342825914552, guid: be73baefee520e9409b4c0c62664c9eb, type: 3}
+  statType: 0
   statValue: 0
-  muzzleOffset: -0.0327

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df465c9f0727649de93dc9202e873798, type: 3}
   m_Name: WeaponAMag9
   m_EditorClassIdentifier: 
-  partType: 4
+  partType: 5
   prefab: {fileID: 1675174649049174, guid: 550ad6766efc3ac4c8a69d6e2597cff9, type: 3}
   statType: 6
   statValue: 0

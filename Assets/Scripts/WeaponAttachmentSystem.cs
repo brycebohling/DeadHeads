@@ -32,6 +32,11 @@ public class WeaponAttachmentSystem : MonoBehaviour
     [SerializeField] GameObject currentBarrel;
     [SerializeField] Transform barrelAttachPoint;
 
+    [Header("Muzzle")]
+    [SerializeField] GameObject currentMuzzle;
+    [SerializeField] Transform muzzleAttachPoint;
+
+
     private void Start() 
     {
         ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
@@ -164,11 +169,45 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentBarrel.transform.localEulerAngles = Vector3.zero;
         currentBarrel.transform.localPosition = Vector3.zero;
 
-        // WeaponBarrelSO weaponBarrelSO = (WeaponBarrelSO)listOfPartTypes[randomIndex];
-
-        // float offset = weaponBarrelSO.muzzleOffset;
-
-        // currentBarrel.transform.localPosition = barrelAttachPoint.position + transform.forward * offset;
-        
+        ChangeMuzzle(listOfPartTypes[randomIndex], randomIndex);
     }
+
+    public void ChangeMuzzle(WeaponPartSO weaponPartSO, int index)
+    {
+        Destroy(currentMuzzle);
+
+        WeaponBarrelSO weaponBarrelSO = (WeaponBarrelSO)weaponPartSO;
+
+        List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Muzzle);
+
+        // GameObject prefab = listOfPartTypes[index].prefab;
+
+        float barrelLength = listOfPartTypes[index].prefab.GetComponent<MeshRenderer>().bounds.size.z;
+        Debug.Log("Barrel len" + barrelLength);
+        
+        float longestMuzzle = 0f;
+
+        GameObject bestFitMuzzle = listOfPartTypes[0].prefab;
+
+        foreach (WeaponPartSO muzzle in listOfPartTypes)
+        {
+            float muzzleLength = muzzle.prefab.GetComponent<MeshRenderer>().bounds.size.z;
+
+            Debug.Log(muzzleLength);
+            if (muzzleLength > longestMuzzle && muzzleLength < barrelLength)
+            {
+                longestMuzzle = muzzleLength;
+                Debug.Log("longest muzzle is: " + longestMuzzle);
+                bestFitMuzzle = muzzle.prefab;
+            }
+        }
+
+        currentMuzzle = Instantiate(bestFitMuzzle);
+
+        currentMuzzle.transform.parent = muzzleAttachPoint;
+        currentMuzzle.transform.localEulerAngles = Vector3.zero;
+        currentMuzzle.transform.localPosition = Vector3.zero;
+
+        currentMuzzle.transform.localPosition = currentMuzzle.transform.localPosition + muzzleAttachPoint.forward * weaponBarrelSO.muzzleOffset;
+    }   
 }

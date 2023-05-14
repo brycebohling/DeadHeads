@@ -16,4 +16,4 @@ MonoBehaviour:
   prefab: {fileID: 1984490453099300, guid: 489f03cce540e744ba7361cd13ebb43b, type: 3}
   statType: 3
   statValue: 0
-  muzzleOffset: 0
+  muzzleOffset: -0.015

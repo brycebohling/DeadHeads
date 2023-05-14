@@ -10,6 +10,7 @@ public class WeaponPartSO : ScriptableObject
         Stock,
         Scope,
         Barrel,
+        Muzzle,
         Mag,
     }
 
