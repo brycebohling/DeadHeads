@@ -6,11 +6,11 @@ using TMPro;
 public class GunStatsSystem : MonoBehaviour
 {
     //Gun stats
-    [SerializeField] int damage;
-    [SerializeField] float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
-    [SerializeField] int magazineSize, bulletsPerTap;
-    [SerializeField] bool allowButtonHold;
-    int bulletsLeft, bulletsShot;
+    public float damage;
+    public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
+    public float magazineSize, bulletsPerTap;
+    public bool allowButtonHold;
+    float bulletsLeft, bulletsShot;
 
     //bools 
     bool shooting, readyToShoot, reloading;

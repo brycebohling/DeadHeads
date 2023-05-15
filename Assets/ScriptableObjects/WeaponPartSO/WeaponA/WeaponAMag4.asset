@@ -15,4 +15,4 @@ MonoBehaviour:
   partType: 5
   prefab: {fileID: 1159489623021366, guid: facb4a71a755c9042a03f135d11135f5, type: 3}
   statType: 6
-  statValue: 0
+  statValue: 4
