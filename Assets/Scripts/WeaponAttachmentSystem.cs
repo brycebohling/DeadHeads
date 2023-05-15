@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponAttachmentSystem : MonoBehaviour
 {
+    private GunStatsSystem gunStatScript;
     private WeaponBodySO weaponBodySO;
     private WeaponPartListSO weaponPartListSO;
     [SerializeField] Transform attackPointOrigin;
@@ -41,6 +42,8 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     private void Start() 
     {
+        gunStatScript = GetComponent<GunStatsSystem>();
+
         ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
     }
 
@@ -82,7 +85,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         railPrefab.transform.localPosition = Vector3.zero; 
     }
 
-    private void ChangeGrip()
+    public void ChangeGrip()
     {
         // Remove grip from before
         Destroy(currentGrip);
@@ -98,9 +101,11 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentGrip.transform.parent = gripAttachPoint;
         currentGrip.transform.localEulerAngles = Vector3.zero;
         currentGrip.transform.localPosition = Vector3.zero;
+
+        ChangeGunStats(listOfPartTypes[randomIndex]);
     }
 
-    private void ChangeStock()
+    public void ChangeStock()
     {
         // Remove Stock from before
         Destroy(currentStock);
@@ -116,9 +121,11 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentStock.transform.parent = stockAttachPoint;
         currentStock.transform.localEulerAngles = Vector3.zero;
         currentStock.transform.localPosition = Vector3.zero;
+
+        ChangeGunStats(listOfPartTypes[randomIndex]);
     }
 
-    private void ChangeScope()
+    public void ChangeScope()
     {
         // Remove Scope from before
         Destroy(currentScope);
@@ -134,9 +141,11 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentScope.transform.parent = scopeAttachPoint;
         currentScope.transform.localEulerAngles = Vector3.zero;
         currentScope.transform.localPosition = Vector3.zero;
+
+        ChangeGunStats(listOfPartTypes[randomIndex]);
     }
 
-    private void ChangeMag()
+    public void ChangeMag()
     {
         // Remove Scope from before
         Destroy(currentMag);
@@ -152,6 +161,8 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentMag.transform.parent = magAttachPoint;
         currentMag.transform.localEulerAngles = Vector3.zero;
         currentMag.transform.localPosition = Vector3.zero;
+
+        ChangeGunStats(listOfPartTypes[randomIndex]);
     }
 
     public void ChangeBarrel() 
@@ -176,6 +187,8 @@ public class WeaponAttachmentSystem : MonoBehaviour
         attackPoint.position = attackPointOrigin.position + attackPointOrigin.forward * barrelLength; 
 
         ChangeMuzzle(listOfPartTypes[randomIndex], barrelLength);
+
+        ChangeGunStats(listOfPartTypes[randomIndex]);
     }
 
     public void ChangeMuzzle(WeaponPartSO weaponPartSO, float barrelLength)
@@ -209,4 +222,46 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         currentMuzzle.transform.localPosition = currentMuzzle.transform.localPosition + muzzleAttachPoint.forward * weaponBarrelSO.muzzleOffset;
     }   
+
+    public void ChangeGunStats(WeaponPartSO weaponPartSO)
+    {
+        switch (weaponPartSO.statType)
+        {
+            case WeaponPartSO.StatType.Damage:
+                gunStatScript.damage += weaponPartSO.statValue;
+                break;
+            
+            case WeaponPartSO.StatType.MagazineSize:
+                gunStatScript.magazineSize += weaponPartSO.statValue;
+                break;
+            
+            case WeaponPartSO.StatType.Range:
+                gunStatScript.range += weaponPartSO.statValue;
+                break;
+
+            case WeaponPartSO.StatType.ReloadTime:
+                gunStatScript.reloadTime += weaponPartSO.statValue;
+                break;
+
+            case WeaponPartSO.StatType.Spread:
+                gunStatScript.spread += weaponPartSO.statValue;
+                break;
+
+            case WeaponPartSO.StatType.TimeBetweenShooting:
+                gunStatScript.timeBetweenShooting += weaponPartSO.statValue;
+                break;
+            
+            case WeaponPartSO.StatType.TimeBetweenShots:
+                gunStatScript.timeBetweenShots += weaponPartSO.statValue;
+                break;
+            
+            default:
+                break;
+        }
+        if (weaponPartSO.statType == WeaponPartSO.StatType.Damage)
+        {
+
+        }
+        
+    }
 }
