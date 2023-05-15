@@ -6,6 +6,8 @@ public class WeaponAttachmentSystem : MonoBehaviour
 {
     private WeaponBodySO weaponBodySO;
     private WeaponPartListSO weaponPartListSO;
+    [SerializeField] Transform attackPointOrigin;
+    [SerializeField] Transform attackPoint;
     [SerializeField] GameObject rail;
     [SerializeField] Transform railAttachPoint;
 
@@ -169,21 +171,20 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentBarrel.transform.localEulerAngles = Vector3.zero;
         currentBarrel.transform.localPosition = Vector3.zero;
 
-        ChangeMuzzle(listOfPartTypes[randomIndex], randomIndex);
+        float barrelLength = listOfPartTypes[randomIndex].prefab.GetComponent<MeshRenderer>().bounds.size.z;
+
+        attackPoint.position = attackPointOrigin.position + attackPointOrigin.forward * barrelLength; 
+
+        ChangeMuzzle(listOfPartTypes[randomIndex], barrelLength);
     }
 
-    public void ChangeMuzzle(WeaponPartSO weaponPartSO, int index)
+    public void ChangeMuzzle(WeaponPartSO weaponPartSO, float barrelLength)
     {
         Destroy(currentMuzzle);
 
         WeaponBarrelSO weaponBarrelSO = (WeaponBarrelSO)weaponPartSO;
 
         List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Muzzle);
-
-        // GameObject prefab = listOfPartTypes[index].prefab;
-
-        float barrelLength = listOfPartTypes[index].prefab.GetComponent<MeshRenderer>().bounds.size.z;
-        Debug.Log("Barrel len" + barrelLength);
         
         float longestMuzzle = 0f;
 
@@ -193,11 +194,9 @@ public class WeaponAttachmentSystem : MonoBehaviour
         {
             float muzzleLength = muzzle.prefab.GetComponent<MeshRenderer>().bounds.size.z;
 
-            Debug.Log(muzzleLength);
-            if (muzzleLength > longestMuzzle && muzzleLength < barrelLength)
+            if (muzzleLength > longestMuzzle && muzzleLength < barrelLength - 0.06f)
             {
                 longestMuzzle = muzzleLength;
-                Debug.Log("longest muzzle is: " + longestMuzzle);
                 bestFitMuzzle = muzzle.prefab;
             }
         }
