@@ -6,13 +6,17 @@ using TMPro;
 public class GunStatsSystem : MonoBehaviour
 {
     //Gun stats
-    public float damage;
-    public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
-    public float magazineSize, bulletsPerTap;
+    [SerializeField] float damage;
+    [SerializeField] float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
+    [SerializeField] float magazineSize, bulletsPerTap;
+
+    public float increasedDamage;
+    public float increasedTimeBetweenShooting, increasedSpread, increasedRange, increasedReloadTime, increasedTimeBetweenShots;
+    public float increasedMagazineSize, increasedBulletsPerTap;
+
+    // Other gun info
     public bool allowButtonHold;
     float bulletsLeft, bulletsShot;
-
-    //bools 
     bool shooting, readyToShoot, reloading;
 
     //Reference
@@ -75,7 +79,7 @@ public class GunStatsSystem : MonoBehaviour
 
         if (hitEnemy)
         {
-            shootingEnemyScript.DmgEnemy(damage, rayHitEnemy.collider);
+            shootingEnemyScript.DmgEnemy(damage + increasedDamage, rayHitEnemy.collider);
             TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, rayHitEnemy));
 
