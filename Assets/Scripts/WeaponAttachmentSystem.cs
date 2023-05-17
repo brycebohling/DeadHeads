@@ -228,40 +228,35 @@ public class WeaponAttachmentSystem : MonoBehaviour
         switch (weaponPartSO.statType)
         {
             case WeaponPartSO.StatType.Damage:
-                gunStatScript.increasedDamage += weaponPartSO.statValue;
+                gunStatScript.increasedDamage = weaponPartSO.statValue;
                 break;
             
             case WeaponPartSO.StatType.MagazineSize:
-                gunStatScript.increasedMagazineSize += weaponPartSO.statValue;
+                gunStatScript.increasedMagazineSize = weaponPartSO.statValue;
                 break;
             
             case WeaponPartSO.StatType.Range:
-                gunStatScript.increasedRange += weaponPartSO.statValue;
+                gunStatScript.increasedRange = weaponPartSO.statValue;
                 break;
 
             case WeaponPartSO.StatType.ReloadTime:
-                gunStatScript.increasedReloadTime += weaponPartSO.statValue;
+                gunStatScript.increasedReloadTime = weaponPartSO.statValue;
                 break;
 
             case WeaponPartSO.StatType.Spread:
-                gunStatScript.increasedSpread += weaponPartSO.statValue;
+                gunStatScript.increasedSpread = weaponPartSO.statValue;
                 break;
 
             case WeaponPartSO.StatType.TimeBetweenShooting:
-                gunStatScript.increasedTimeBetweenShooting += weaponPartSO.statValue;
+                gunStatScript.increasedTimeBetweenShooting = weaponPartSO.statValue;
                 break;
             
             case WeaponPartSO.StatType.TimeBetweenShots:
-                gunStatScript.increasedTimeBetweenShots += weaponPartSO.statValue;
+                gunStatScript.increasedTimeBetweenShots = weaponPartSO.statValue;
                 break;
             
             default:
                 break;
-        }
-        if (weaponPartSO.statType == WeaponPartSO.StatType.Damage)
-        {
-
-        }
-        
+        }        
     }
 }

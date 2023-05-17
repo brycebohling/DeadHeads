@@ -5,14 +5,20 @@ using TMPro;
 
 public class GunStatsSystem : MonoBehaviour
 {
-    //Gun stats
-    [SerializeField] float damage;
-    [SerializeField] float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
-    [SerializeField] float magazineSize, bulletsPerTap;
+    [Header("Base Stats")]
+    [SerializeField] float baseDamage, baseTimeBetweenShooting, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
+    [SerializeField] int bulletsPerTap;
 
+    [Header("Public fields")]
     public float increasedDamage;
     public float increasedTimeBetweenShooting, increasedSpread, increasedRange, increasedReloadTime, increasedTimeBetweenShots;
-    public float increasedMagazineSize, increasedBulletsPerTap;
+    public float increasedMagazineSize;
+
+    // total stats
+    public float damage;
+    public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
+    public float magazineSize;
+
 
     // Other gun info
     public bool allowButtonHold;
@@ -40,8 +46,10 @@ public class GunStatsSystem : MonoBehaviour
         bulletsLeft = magazineSize;
         readyToShoot = true;
     }
+
     private void Update()
     {
+        UpdateStats();
         MyInput();
 
         //SetText
@@ -79,7 +87,7 @@ public class GunStatsSystem : MonoBehaviour
 
         if (hitEnemy)
         {
-            shootingEnemyScript.DmgEnemy(damage + increasedDamage, rayHitEnemy.collider);
+            shootingEnemyScript.DmgEnemy(damage, rayHitEnemy.collider);
             TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, rayHitEnemy));
 
@@ -145,5 +153,16 @@ public class GunStatsSystem : MonoBehaviour
         trail.transform.position = hit.point;
 
         Destroy(trail.gameObject, trail.time);
+    }
+    
+    private void UpdateStats()
+    {
+        damage = baseDamage + increasedDamage;
+        timeBetweenShooting = baseTimeBetweenShooting + increasedTimeBetweenShooting;
+        spread = baseSpread + increasedSpread;
+        range = baseRange + increasedRange;
+        reloadTime = baseReloadTime + increasedReloadTime;
+        timeBetweenShots = baseTimeBetweenShots + timeBetweenShots;
+        magazineSize = baseMagazineSize + increasedMagazineSize;
     }
 }

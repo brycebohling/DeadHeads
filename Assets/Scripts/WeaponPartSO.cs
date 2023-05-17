@@ -23,6 +23,7 @@ public class WeaponPartSO : ScriptableObject
         TimeBetweenShots,
         MagazineSize, 
         BulletsPerTap,
+        Nothing,
     }
 
     public PartType partType;

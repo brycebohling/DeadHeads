@@ -15,5 +15,5 @@ MonoBehaviour:
   partType: 3
   prefab: {fileID: 1732225824790526, guid: 5ea910ac373fcf64bb27d7ace5a8c540, type: 3}
   statType: 3
-  statValue: 0
+  statValue: 60
   muzzleOffset: 0

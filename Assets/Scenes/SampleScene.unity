@@ -9208,13 +9208,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1495853472}
     - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
+      propertyPath: baseRange
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
+      propertyPath: baseDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
+      propertyPath: baseSpread
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
+      propertyPath: baseReloadTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
+      propertyPath: baseMagazineSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
       propertyPath: shootingEnemyScript
       value: 
       objectReference: {fileID: 1465920846}
+    - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
+      propertyPath: baseTimeBetweenShots
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 412344729, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
+      propertyPath: baseTimeBetweenShooting
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 8857096181187682483, guid: 09ad443eeea424635b98850c7f30f47c,
         type: 3}
       propertyPath: m_Name
