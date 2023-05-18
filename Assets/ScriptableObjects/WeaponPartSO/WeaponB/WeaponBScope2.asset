@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a068717b16079457596a00dd860f7638, type: 3}
-  m_Name: WeaponB
+  m_Script: {fileID: 11500000, guid: df465c9f0727649de93dc9202e873798, type: 3}
+  m_Name: WeaponBScope2
   m_EditorClassIdentifier: 
-  body: 1
-  prefab: {fileID: 1702636704965320, guid: a7278d81fe3ac284ba2b0212798da66e, type: 3}
-  weaponPartListSO: {fileID: 11400000, guid: 7d10cc663c9914810973e913abd86bda, type: 2}
+  partType: 2
+  prefab: {fileID: 1242899488601990, guid: 102c0991da23e1e4181ea5e3694aa8ce, type: 3}
+  statType: 3
+  statValue: 0

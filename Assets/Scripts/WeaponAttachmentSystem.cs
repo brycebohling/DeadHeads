@@ -69,6 +69,10 @@ public class WeaponAttachmentSystem : MonoBehaviour
         {
             ChangeBarrel();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            ChangeBody(weaponBodyListSO.rifleBWeaponBodySO);
+        }
     }
 
     public void ChangeBody(WeaponBodySO weaponBodySO) 
@@ -79,10 +83,26 @@ public class WeaponAttachmentSystem : MonoBehaviour
         weaponBodyGameobject.transform.parent = transform;
         weaponBodyGameobject.transform.localPosition = Vector3.zero; 
 
-        // Temp code for rail
-        GameObject railPrefab = Instantiate(rail);
-        railPrefab.transform.parent = railAttachPoint;
-        railPrefab.transform.localPosition = Vector3.zero; 
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            GameObject railPrefab = Instantiate(rail);
+            railPrefab.transform.parent = railAttachPoint;
+            railPrefab.transform.localPosition = Vector3.zero; 
+        }
+
+        if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+        {
+            // GameObject railPrefab = Instantiate(rail);
+            // railPrefab.transform.parent = railAttachPoint;
+            // railPrefab.transform.localPosition = Vector3.zero; 
+        }
+
+        if (weaponBodySO == weaponBodyListSO.pistolWeaponBodySO)
+        {
+            // GameObject railPrefab = Instantiate(rail);
+            // railPrefab.transform.parent = railAttachPoint;
+            // railPrefab.transform.localPosition = Vector3.zero; 
+        }
     }
 
     public void ChangeGrip()
