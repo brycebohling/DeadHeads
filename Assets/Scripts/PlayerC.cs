@@ -5,12 +5,20 @@ using UnityEngine;
 public class PlayerC : MonoBehaviour
 {
     CharacterController controller;
+
+    [Header("Keybinds")]
+    [SerializeField] KeyCode sprint;
+
     Vector3 playerVelocity;
     bool groundedPlayer;
-    [SerializeField] float playerSpeed = 2.0f;
+
+    [Header("Speeds")]
+    float playerSpeed;
+    [SerializeField] float playerWalkSpeed;
+    [SerializeField] float playerRunSpeed;
     [SerializeField] float jumpHeight = 1.0f;
     float gravityValue = -9.81f;
-    [SerializeField] Transform mainCamera;
+    [SerializeField] Transform armPivot;
 
 
     private void Start()
@@ -18,11 +26,15 @@ public class PlayerC : MonoBehaviour
         controller = gameObject.GetComponent<CharacterController>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        playerSpeed = playerWalkSpeed;
         
     }
 
     private void Update()
     {
+        HandleRunning();
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -30,10 +42,8 @@ public class PlayerC : MonoBehaviour
         }
         
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        move = mainCamera.forward * move.z + mainCamera.right * move.x;
+        move = armPivot.forward * move.z + armPivot.right * move.x;
         move.y = 0f;
-
-        transform.localEulerAngles = new Vector3(0f, mainCamera.eulerAngles.y, 0f);
 
         controller.Move(move * Time.deltaTime * playerSpeed);
 
@@ -44,5 +54,17 @@ public class PlayerC : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+    private void HandleRunning()
+    {
+        if (Input.GetKeyDown(sprint))
+        {
+            playerSpeed = playerRunSpeed;
+        }
+        if (Input.GetKeyUp(sprint))
+        {
+            playerSpeed = playerWalkSpeed;
+        }
     }
 }
