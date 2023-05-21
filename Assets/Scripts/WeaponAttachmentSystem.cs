@@ -9,35 +9,46 @@ public class WeaponAttachmentSystem : MonoBehaviour
     private WeaponPartListSO weaponPartListSO;
     [SerializeField] Transform attackPointOrigin;
     [SerializeField] Transform attackPoint;
-    [SerializeField] GameObject rail;
-    [SerializeField] Transform railAttachPoint;
 
     [Header("Body")]
     [SerializeField] WeaponBodyListSO weaponBodyListSO;
 
+    [Header("Rail")]
+    [SerializeField] GameObject weaponARail;
+    [SerializeField] Transform weaponARailAttachPoint;
+    [SerializeField] GameObject weaponBRail;
+    [SerializeField] Transform weaponBRailAttachPoint;
+    
+
     [Header("Grip")]
     [SerializeField] GameObject currentGrip;
-    [SerializeField] Transform gripAttachPoint;
+    [SerializeField] Transform gripAAttachPoint;
+    [SerializeField] Transform gripBAttachPoint;
 
     [Header("Stock")]
     [SerializeField] GameObject currentStock;
-    [SerializeField] Transform stockAttachPoint;
+    [SerializeField] Transform stockAAttachPoint;
+    [SerializeField] Transform stockBAttachPoint;
 
     [Header("Scope")]
     [SerializeField] GameObject currentScope;
-    [SerializeField] Transform scopeAttachPoint;
+    [SerializeField] Transform scopeAAttachPoint;
+    [SerializeField] Transform scopeBAttachPoint;
 
     [Header("Mag")]
     [SerializeField] GameObject currentMag;
-    [SerializeField] Transform magAttachPoint;
+    [SerializeField] Transform magAAttachPoint;
+    [SerializeField] Transform magBAttachPoint;
 
     [Header("Barrel")]
     [SerializeField] GameObject currentBarrel;
-    [SerializeField] Transform barrelAttachPoint;
+    [SerializeField] Transform barrelAAttachPoint;
+    [SerializeField] Transform barrelBAttachPoint;
 
     [Header("Muzzle")]
     [SerializeField] GameObject currentMuzzle;
-    [SerializeField] Transform muzzleAttachPoint;
+    [SerializeField] Transform muzzleAAttachPoint;
+    [SerializeField] Transform muzzleBAttachPoint;
 
 
     private void Start() 
@@ -71,7 +82,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            ChangeBody(weaponBodyListSO.rifleBWeaponBodySO);
+            if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+            {
+                ChangeBody(weaponBodyListSO.rifleBWeaponBodySO);
+            } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+            {
+                ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
+            }
+            
         }
     }
 
@@ -85,23 +103,16 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
-            GameObject railPrefab = Instantiate(rail);
-            railPrefab.transform.parent = railAttachPoint;
+            GameObject railPrefab = Instantiate(weaponARail);
+            railPrefab.transform.parent = weaponARailAttachPoint;
             railPrefab.transform.localPosition = Vector3.zero; 
         }
 
         if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
         {
-            // GameObject railPrefab = Instantiate(rail);
-            // railPrefab.transform.parent = railAttachPoint;
-            // railPrefab.transform.localPosition = Vector3.zero; 
-        }
-
-        if (weaponBodySO == weaponBodyListSO.pistolWeaponBodySO)
-        {
-            // GameObject railPrefab = Instantiate(rail);
-            // railPrefab.transform.parent = railAttachPoint;
-            // railPrefab.transform.localPosition = Vector3.zero; 
+            GameObject railPrefab = Instantiate(weaponBRail);
+            railPrefab.transform.parent = weaponBRailAttachPoint;
+            railPrefab.transform.localPosition = Vector3.zero; 
         }
     }
 
@@ -118,7 +129,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentGrip = Instantiate(prefab);
 
-        currentGrip.transform.parent = gripAttachPoint;
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            currentGrip.transform.parent = gripAAttachPoint;
+        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+        {
+            currentGrip.transform.parent = gripBAttachPoint;
+        }
+
         currentGrip.transform.localEulerAngles = Vector3.zero;
         currentGrip.transform.localPosition = Vector3.zero;
 
@@ -138,7 +156,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentStock = Instantiate(prefab);
 
-        currentStock.transform.parent = stockAttachPoint;
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            currentStock.transform.parent = stockAAttachPoint;
+        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+        {
+            currentStock.transform.parent = stockBAttachPoint;
+        }
+        
         currentStock.transform.localEulerAngles = Vector3.zero;
         currentStock.transform.localPosition = Vector3.zero;
 
@@ -158,7 +183,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentScope = Instantiate(prefab);
 
-        currentScope.transform.parent = scopeAttachPoint;
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            currentScope.transform.parent = scopeAAttachPoint;
+        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+        {
+            currentScope.transform.parent = scopeBAttachPoint;
+        }
+
         currentScope.transform.localEulerAngles = Vector3.zero;
         currentScope.transform.localPosition = Vector3.zero;
 
@@ -178,7 +210,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentMag = Instantiate(prefab);
 
-        currentMag.transform.parent = magAttachPoint;
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            currentMag.transform.parent = magAAttachPoint;
+        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+        {
+            currentMag.transform.parent = magBAttachPoint;
+        }
+
         currentMag.transform.localEulerAngles = Vector3.zero;
         currentMag.transform.localPosition = Vector3.zero;
 
@@ -198,7 +237,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentBarrel = Instantiate(prefab);
 
-        currentBarrel.transform.parent = barrelAttachPoint;
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            currentBarrel.transform.parent = barrelAAttachPoint;
+        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+        {
+            currentBarrel.transform.parent = barrelBAttachPoint;
+        }
+
         currentBarrel.transform.localEulerAngles = Vector3.zero;
         currentBarrel.transform.localPosition = Vector3.zero;
 
@@ -236,11 +282,18 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         currentMuzzle = Instantiate(bestFitMuzzle);
 
-        currentMuzzle.transform.parent = muzzleAttachPoint;
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            currentMuzzle.transform.parent = muzzleAAttachPoint;
+        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
+        {
+            currentMuzzle.transform.parent = muzzleBAttachPoint;
+        }
+
         currentMuzzle.transform.localEulerAngles = Vector3.zero;
         currentMuzzle.transform.localPosition = Vector3.zero;
 
-        currentMuzzle.transform.localPosition = currentMuzzle.transform.localPosition + muzzleAttachPoint.forward * weaponBarrelSO.muzzleOffset;
+        currentMuzzle.transform.localPosition = currentMuzzle.transform.localPosition + muzzleAAttachPoint.forward * weaponBarrelSO.muzzleOffset;
     }   
 
     public void ChangeGunStats(WeaponPartSO weaponPartSO)
