@@ -2,9 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class GunStatsSystem : MonoBehaviour
 {
+    [Header("Events")]
+    public UnityEvent startedReloading;
+    public UnityEvent finishedReloading;
+
+    [Header("References")]
+    WeaponSwayBob weaponSwayBobScript;
+    [SerializeField] Camera mainCamera;
+    [SerializeField] Transform attackPoint;
+    [SerializeField] RaycastHit rayHitEnemy;
+    [SerializeField] RaycastHit rayHitSomething;
+    [SerializeField] LayerMask whatIsEnemy;
+    [SerializeField] LayerMask enviormentLayer;
+    [SerializeField] ShootingEnemy shootingEnemyScript;
+    [SerializeField] Transform reloadPos;
+
     [Header("Base Stats")]
     [SerializeField] float baseDamage, baseTimeBetweenShooting, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
     [SerializeField] int bulletsPerTap;
@@ -25,21 +41,15 @@ public class GunStatsSystem : MonoBehaviour
     float bulletsLeft, bulletsShot;
     bool shooting, readyToShoot, reloading;
 
-    //Reference
-    [SerializeField] Camera mainCamera;
-    [SerializeField] Transform attackPoint;
-    [SerializeField] RaycastHit rayHitEnemy;
-    [SerializeField] RaycastHit rayHitSomething;
-    [SerializeField] LayerMask whatIsEnemy;
-    [SerializeField] LayerMask enviormentLayer;
-    [SerializeField] ShootingEnemy shootingEnemyScript;
-
-    //Graphics
+    [Header("Graphics")]
     [SerializeField] GameObject muzzleFlash, bulletHoleGraphic;
     [SerializeField] TrailRenderer bulletTrail;
 
     [SerializeField] float camShakeMagnitude, camShakeDuration;
     [SerializeField] TextMeshProUGUI text;
+    
+    [SerializeField] float reloadLerpSpeed;
+    
 
     private void Awake()
     {
@@ -47,10 +57,20 @@ public class GunStatsSystem : MonoBehaviour
         readyToShoot = true;
     }
 
+    private void Start() 
+    {
+        weaponSwayBobScript = GetComponent<WeaponSwayBob>();
+    }
+
     private void Update()
     {
         UpdateStats();
         MyInput();
+
+        if (reloading)
+        {
+            ReloadingAnim();
+        }
 
         //SetText
         text.SetText(bulletsLeft + " / " + magazineSize);
@@ -64,7 +84,8 @@ public class GunStatsSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
 
         //Shoot
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0){
+        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
+        {
             bulletsShot = bulletsPerTap;
             Shoot();
         }
@@ -126,12 +147,21 @@ public class GunStatsSystem : MonoBehaviour
 
     private void Reload()
     {
+        startedReloading.Invoke();
+
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
 
+    private void ReloadingAnim()
+    {
+        transform.position = Vector3.Lerp(transform.position, reloadPos.position, reloadLerpSpeed);
+    }
+
     private void ReloadFinished()
     {
+        finishedReloading.Invoke();
+
         bulletsLeft = magazineSize;
         reloading = false;
     }

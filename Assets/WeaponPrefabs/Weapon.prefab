@@ -240,14 +240,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977276717801189101}
-  m_LocalRotation: {x: 0.33964318, y: -0.70665604, z: -0.44111833, w: 0.43668586}
-  m_LocalPosition: {x: 0.051, y: -0.057, z: -0.096}
+  m_LocalRotation: {x: 0.6119256, y: 0.55944496, z: 0.5313803, w: -0.17379166}
+  m_LocalPosition: {x: -0.1076, y: 0.0821, z: 0.2519}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5963428403098884868}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -19.075, y: -104.05, z: -66.284}
+  m_LocalEulerAnglesHint: {x: -53.828, y: 489.43, z: -237.9}
 --- !u!1 &2893809625326637376
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +272,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2893809625326637376}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.10520011, z: 0.25150013}
+  m_LocalPosition: {x: 0.015, y: 0.10520011, z: 0.25150013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -645,6 +645,8 @@ GameObject:
   - component: {fileID: 5963428403098884868}
   - component: {fileID: 5963428403098884875}
   - component: {fileID: 2893809625232431648}
+  - component: {fileID: 1872222214}
+  - component: {fileID: 1872222213}
   m_Layer: 8
   m_Name: Weapon
   m_TagString: Untagged
@@ -725,11 +727,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b61cb7c93ba4bc6b5bd4d0284ac87b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startedReloading:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1872222213}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  finishedReloading:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1872222213}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  mainCamera: {fileID: 0}
+  attackPoint: {fileID: 2893809625903696755}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 128
+  enviormentLayer:
+    serializedVersion: 2
+    m_Bits: 375
+  shootingEnemyScript: {fileID: 0}
+  reloadPos: {fileID: 0}
   baseDamage: 10
   baseTimeBetweenShooting: 0.15
   baseSpread: 0.05
   baseRange: 100
-  baseReloadTime: 1
+  baseReloadTime: 2
   baseTimeBetweenShots: 0.15
   baseMagazineSize: 30
   bulletsPerTap: 1
@@ -748,15 +790,6 @@ MonoBehaviour:
   timeBetweenShots: 0.2
   magazineSize: 30
   allowButtonHold: 1
-  mainCamera: {fileID: 0}
-  attackPoint: {fileID: 2893809625903696755}
-  whatIsEnemy:
-    serializedVersion: 2
-    m_Bits: 128
-  enviormentLayer:
-    serializedVersion: 2
-    m_Bits: 375
-  shootingEnemyScript: {fileID: 0}
   muzzleFlash: {fileID: 1126046646508270, guid: f913bc3b5f93c1d4cac760813a9a6bf1,
     type: 3}
   bulletHoleGraphic: {fileID: 1364626547466708, guid: 3b1aa7e77622ff048b50275424ccd519,
@@ -766,6 +799,49 @@ MonoBehaviour:
   camShakeMagnitude: 0.2
   camShakeDuration: 0.1
   text: {fileID: 0}
+  reloadLerpSpeed: 0.1
+--- !u!54 &1872222214
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5963428403098884874}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!114 &1872222213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5963428403098884874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0bb30ec13a0141b48fda3bf6f2ef132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScript: {fileID: 0}
+  cameraScript: {fileID: 0}
+  sway: 1
+  swayRotation: 1
+  bobOffset: 1
+  bobSway: 1
+  step: 0.01
+  maxStepDistance: 0.02
+  rotationStep: 1.5
+  maxRotationStep: 1.5
+  speedCurve: 0
+  travelLimit: {x: 0.02, y: 0.01, z: 0.02}
+  bobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  multiplier: {x: 2, y: 2, z: 2}
 --- !u!1 &5964072722930006788
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,7 +853,7 @@ GameObject:
   - component: {fileID: 5968061461570609448}
   - component: {fileID: 5961289155051810820}
   - component: {fileID: 5951299624462767254}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_Mod_Body_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -860,7 +936,7 @@ GameObject:
   - component: {fileID: 5968210939547680066}
   - component: {fileID: 5960491060945613114}
   - component: {fileID: 5951188475372990596}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_Mod_Body_Charge_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -943,7 +1019,7 @@ GameObject:
   - component: {fileID: 5967979688736354292}
   - component: {fileID: 5959728580420720044}
   - component: {fileID: 5949323062391745482}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_Mod_A_Body_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1031,7 +1107,7 @@ GameObject:
   - component: {fileID: 5966506684352751544}
   - component: {fileID: 5959465794570811938}
   - component: {fileID: 5949741415771609112}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_Mod_Body_DustGuard_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1114,7 +1190,7 @@ GameObject:
   - component: {fileID: 5968194274377494794}
   - component: {fileID: 5959524373331265506}
   - component: {fileID: 5949396786207137518}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_Mod_Body_Switch_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1197,7 +1273,7 @@ GameObject:
   - component: {fileID: 5966204243534834874}
   - component: {fileID: 5961345974347648130}
   - component: {fileID: 5951190284785431246}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_Mod_Body_Switch_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -19,6 +19,7 @@ public class PlayerC : MonoBehaviour
     [SerializeField] float jumpHeight = 1.0f;
     float gravityValue = -9.81f;
     [SerializeField] Transform armPivot;
+    Vector3 move;
 
 
     private void Start()
@@ -41,7 +42,7 @@ public class PlayerC : MonoBehaviour
             playerVelocity.y = 0f;
         }
         
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         move = armPivot.forward * move.z + armPivot.right * move.x;
         move.y = 0f;
 
@@ -66,5 +67,15 @@ public class PlayerC : MonoBehaviour
         {
             playerSpeed = playerWalkSpeed;
         }
+    }
+
+    public Vector3 GetMoveInput()
+    {
+        return move;
+    }
+
+    public bool IsGrounded()
+    {
+        return controller.isGrounded;
     }
 }
