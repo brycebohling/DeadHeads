@@ -319,10 +319,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
             case WeaponPartSO.StatType.Spread:
                 gunStatScript.increasedSpread = weaponPartSO.statValue;
                 break;
-
-            case WeaponPartSO.StatType.TimeBetweenShooting:
-                gunStatScript.increasedTimeBetweenShooting = weaponPartSO.statValue;
-                break;
             
             case WeaponPartSO.StatType.TimeBetweenShots:
                 gunStatScript.increasedTimeBetweenShots = weaponPartSO.statValue;

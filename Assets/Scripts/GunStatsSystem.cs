@@ -9,6 +9,8 @@ public class GunStatsSystem : MonoBehaviour
     [Header("Events")]
     public UnityEvent startedReloading;
     public UnityEvent finishedReloading;
+    public UnityEvent startedRecoil;
+    public UnityEvent finishedRecoil;
 
     [Header("References")]
     WeaponSwayBob weaponSwayBobScript;
@@ -20,14 +22,15 @@ public class GunStatsSystem : MonoBehaviour
     [SerializeField] LayerMask enviormentLayer;
     [SerializeField] ShootingEnemy shootingEnemyScript;
     [SerializeField] Transform reloadPos;
+    [SerializeField] Transform recoilPos;
 
     [Header("Base Stats")]
-    [SerializeField] float baseDamage, baseTimeBetweenShooting, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
+    [SerializeField] float baseDamage, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
     [SerializeField] int bulletsPerTap;
 
     [Header("Public fields")]
     public float increasedDamage;
-    public float increasedTimeBetweenShooting, increasedSpread, increasedRange, increasedReloadTime, increasedTimeBetweenShots;
+    public float increasedSpread, increasedRange, increasedReloadTime, increasedTimeBetweenShots;
     public float increasedMagazineSize;
 
     // total stats
@@ -48,18 +51,21 @@ public class GunStatsSystem : MonoBehaviour
     [SerializeField] float camShakeMagnitude, camShakeDuration;
     [SerializeField] TextMeshProUGUI text;
     
+    [Header("Animations")]
     [SerializeField] float reloadLerpSpeed;
+    [SerializeField] float recoilAnimLength;
+    float recoilAnimTimer;
+    bool playRecoilAnim;
+    [SerializeField] float recoilLerpSpeed;
     
-
-    private void Awake()
-    {
-        bulletsLeft = magazineSize;
-        readyToShoot = true;
-    }
 
     private void Start() 
     {
         weaponSwayBobScript = GetComponent<WeaponSwayBob>();
+
+        recoilAnimTimer = recoilAnimLength;
+        bulletsLeft = magazineSize;
+        readyToShoot = true;
     }
 
     private void Update()
@@ -70,6 +76,20 @@ public class GunStatsSystem : MonoBehaviour
         if (reloading)
         {
             ReloadingAnim();
+        }
+
+        if (playRecoilAnim)
+        {
+            RecoilAnim();
+
+            recoilAnimTimer -= Time.deltaTime;
+
+            if (recoilAnimTimer <= 0)
+            {
+                playRecoilAnim = false;
+                finishedRecoil.Invoke();
+                recoilAnimTimer = recoilAnimLength;
+            }
         }
 
         //SetText
@@ -136,8 +156,13 @@ public class GunStatsSystem : MonoBehaviour
 
         Invoke("ResetShot", timeBetweenShooting);
 
-        if(bulletsShot > 0 && bulletsLeft > 0)
-        Invoke("Shoot", timeBetweenShots);
+        playRecoilAnim = true;
+        startedRecoil.Invoke();
+    }
+
+    private void RecoilAnim()
+    {
+        transform.position = Vector3.Lerp(transform.position, recoilPos.position, recoilLerpSpeed);
     }
 
     private void ResetShot()
@@ -188,7 +213,6 @@ public class GunStatsSystem : MonoBehaviour
     private void UpdateStats()
     {
         damage = baseDamage + increasedDamage;
-        timeBetweenShooting = baseTimeBetweenShooting + increasedTimeBetweenShooting;
         spread = baseSpread + increasedSpread;
         range = baseRange + increasedRange;
         reloadTime = baseReloadTime + increasedReloadTime;

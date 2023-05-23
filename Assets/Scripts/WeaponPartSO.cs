@@ -16,7 +16,6 @@ public class WeaponPartSO : ScriptableObject
 
     public enum StatType {
         Damage,
-        TimeBetweenShooting,
         Spread,
         Range,
         ReloadTime, 
