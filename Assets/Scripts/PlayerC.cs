@@ -9,17 +9,23 @@ public class PlayerC : MonoBehaviour
     [Header("Keybinds")]
     [SerializeField] KeyCode sprint;
 
-    Vector3 playerVelocity;
-    bool groundedPlayer;
+    
+    
 
     [Header("Speeds")]
     float playerSpeed;
+    Vector3 playerVelocity;
     [SerializeField] float playerWalkSpeed;
     [SerializeField] float playerRunSpeed;
     [SerializeField] float jumpHeight = 1.0f;
     float gravityValue = -9.81f;
+
     [SerializeField] Transform armPivot;
     Vector3 move;
+    bool groundedPlayer;
+    [SerializeField] Transform groundCheck;
+    [SerializeField] LayerMask ground;
+    [SerializeField] float groundCheckSize;
 
 
     private void Start()
@@ -36,7 +42,7 @@ public class PlayerC : MonoBehaviour
     {
         HandleRunning();
 
-        groundedPlayer = controller.isGrounded;
+        groundedPlayer = IsGrounded();
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
@@ -76,6 +82,11 @@ public class PlayerC : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return controller.isGrounded;
+        return Physics.CheckSphere(groundCheck.position, groundCheckSize, ground);
+    }
+
+    private void OnDrawGizmos() 
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckSize);    
     }
 }

@@ -9,6 +9,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
     private WeaponPartListSO weaponPartListSO;
     [SerializeField] Transform attackPointOrigin;
     [SerializeField] Transform attackPoint;
+    int weaponLayer = 8;
 
     [Header("Body")]
     [SerializeField] WeaponBodyListSO weaponBodyListSO;
@@ -100,12 +101,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
         GameObject weaponBodyGameobject = Instantiate(weaponBodySO.prefab); 
         weaponBodyGameobject.transform.parent = transform;
         weaponBodyGameobject.transform.localPosition = Vector3.zero; 
+        weaponBodyGameobject.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
             GameObject railPrefab = Instantiate(weaponARail);
             railPrefab.transform.parent = weaponARailAttachPoint;
-            railPrefab.transform.localPosition = Vector3.zero; 
+            railPrefab.transform.localPosition = Vector3.zero;
+            railPrefab.layer = weaponLayer;
         }
 
         if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
@@ -113,6 +116,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
             GameObject railPrefab = Instantiate(weaponBRail);
             railPrefab.transform.parent = weaponBRailAttachPoint;
             railPrefab.transform.localPosition = Vector3.zero; 
+            railPrefab.layer = weaponLayer;
         }
     }
 
@@ -128,6 +132,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
     
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentGrip = Instantiate(prefab);
+        currentGrip.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
@@ -155,6 +160,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentStock = Instantiate(prefab);
+        currentStock.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
@@ -182,6 +188,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentScope = Instantiate(prefab);
+        currentScope.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
@@ -209,6 +216,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentMag = Instantiate(prefab);
+        currentMag.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
@@ -236,6 +244,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         
         GameObject prefab = listOfPartTypes[randomIndex].prefab;
         currentBarrel = Instantiate(prefab);
+        currentBarrel.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
@@ -281,6 +290,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         }
 
         currentMuzzle = Instantiate(bestFitMuzzle);
+        currentMuzzle.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {

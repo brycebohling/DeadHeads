@@ -96,7 +96,7 @@ public class WeaponSwayBob : MonoBehaviour
 
     private void BobOffset()
     {
-        speedCurve += Time.deltaTime * (playerScript.IsGrounded() ? rb.velocity.magnitude : 1f) + 0.01f;
+        speedCurve += Time.deltaTime * (playerScript.IsGrounded() ? playerScript.GetComponent<CharacterController>().velocity.magnitude : 1f) + 0.01f;
 
         if (bobOffset == false) { bobPosition = Vector3.zero; return; }
 
