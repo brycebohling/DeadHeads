@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerC : MonoBehaviour
 {
     CharacterController controller;
 
     [Header("Keybinds")]
-    [SerializeField] KeyCode sprint;
+    [SerializeField] KeyCode sprintKey;
+    [SerializeField] KeyCode weaponPickUpKey;
 
     [Header("Speeds")]
     float playerSpeed;
@@ -29,6 +31,8 @@ public class PlayerC : MonoBehaviour
     [SerializeField] Camera mainCamera;
     [SerializeField] float pickUpRange;
     RaycastHit rayHitWeaponPart;
+    [SerializeField] GameObject partPickUpTextObject;
+
 
 
     private void Start()
@@ -69,11 +73,11 @@ public class PlayerC : MonoBehaviour
 
     private void HandleRunning()
     {
-        if (Input.GetKeyDown(sprint))
+        if (Input.GetKeyDown(sprintKey))
         {
             playerSpeed = playerRunSpeed;
         }
-        if (Input.GetKeyUp(sprint))
+        if (Input.GetKeyUp(sprintKey))
         {
             playerSpeed = playerWalkSpeed;
         }
@@ -96,9 +100,16 @@ public class PlayerC : MonoBehaviour
 
         if (hitPart)
         {
-            WeaponPartC partScript = rayHitWeaponPart.collider.GetComponent<WeaponPartC>();
+            partPickUpTextObject.SetActive(true);
 
-            partScript.Equip();
+            if (Input.GetKeyDown(weaponPickUpKey))
+            {
+                WeaponPartC partScript = rayHitWeaponPart.collider.GetComponent<WeaponPartC>();
+                partScript.Equip();
+            }
+        } else
+        {
+            partPickUpTextObject.SetActive(false);
         }
     }
 

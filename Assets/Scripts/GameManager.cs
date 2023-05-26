@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             int lenghtOfPartTypes = WeaponPartSO.PartType.GetNames(typeof(WeaponPartSO.PartType)).Length - 1; // Have to subtract 1 bc don't want to spawn muzzle
-            Debug.Log(lenghtOfPartTypes);
 
             int randomPartTypeValue = Random.Range(0, lenghtOfPartTypes);
 
