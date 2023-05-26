@@ -3273,6 +3273,7 @@ GameObject:
   - component: {fileID: 555969761}
   - component: {fileID: 555969760}
   - component: {fileID: 555969759}
+  - component: {fileID: 555969762}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3304,8 +3305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021fa10ea53024a86a27ea8c5d2b98a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponAttachmentSystemScript: {fileID: 1872222216}
-  WeaponPartSpawn: {fileID: 641938129}
 --- !u!4 &555969761
 Transform:
   m_ObjectHideFlags: 0
@@ -3321,6 +3320,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &555969762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555969758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6bd28eece2d411db07e25591e00700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponAttachmentSystemScript: {fileID: 1872222216}
+  WeaponPartSpawn: {fileID: 641938129}
 --- !u!1001 &592146320
 PrefabInstance:
   m_ObjectHideFlags: 0
