@@ -9,9 +9,6 @@ public class PlayerC : MonoBehaviour
     [Header("Keybinds")]
     [SerializeField] KeyCode sprint;
 
-    
-    
-
     [Header("Speeds")]
     float playerSpeed;
     Vector3 playerVelocity;
@@ -27,6 +24,12 @@ public class PlayerC : MonoBehaviour
     [SerializeField] LayerMask ground;
     [SerializeField] float groundCheckSize;
 
+    [Header("WeaponPickUp")]
+    [SerializeField] LayerMask pickUpLayer;
+    [SerializeField] Camera mainCamera;
+    [SerializeField] float pickUpRange;
+    RaycastHit rayHitWeaponPart;
+
 
     private void Start()
     {
@@ -41,6 +44,7 @@ public class PlayerC : MonoBehaviour
     private void Update()
     {
         HandleRunning();
+        LookingAtWeaponPart();
 
         groundedPlayer = IsGrounded();
         if (groundedPlayer && playerVelocity.y < 0)
@@ -83,6 +87,19 @@ public class PlayerC : MonoBehaviour
     public bool IsGrounded()
     {
         return Physics.CheckSphere(groundCheck.position, groundCheckSize, ground);
+    }
+
+    void LookingAtWeaponPart()
+    {
+        Vector3 direction = mainCamera.transform.forward;
+        bool hitPart = Physics.Raycast(mainCamera.transform.position, direction, out rayHitWeaponPart, pickUpRange, pickUpLayer);
+
+        if (hitPart)
+        {
+            WeaponPartC partScript = rayHitWeaponPart.collider.GetComponent<WeaponPartC>();
+
+            partScript.Equip();
+        }
     }
 
     private void OnDrawGizmos() 

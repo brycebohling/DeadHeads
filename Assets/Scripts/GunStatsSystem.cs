@@ -13,6 +13,7 @@ public class GunStatsSystem : MonoBehaviour
     public UnityEvent finishedRecoil;
 
     [Header("References")]
+    [SerializeField] CameraShake cameraShakeScipt;
     WeaponSwayBob weaponSwayBobScript;
     [SerializeField] Camera mainCamera;
     [SerializeField] Transform attackPoint;
@@ -25,17 +26,18 @@ public class GunStatsSystem : MonoBehaviour
     [SerializeField] Transform recoilPos;
 
     [Header("Base Stats")]
-    [SerializeField] float baseDamage, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
     [SerializeField] int bulletsPerTap;
+    [SerializeField] float baseDamage, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
+    
 
-    [Header("Public fields")]
+    [Header("Public fields, DONT TOUCH")]
     public float increasedDamage;
-    public float increasedSpread, increasedRange, increasedReloadTime, increasedTimeBetweenShots;
+    public float increasedSpread, increasedRange, increasedReloadTime, decreaseTimeBetweenShots;
     public float increasedMagazineSize;
 
     // total stats
     public float damage;
-    public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
+    public float spread, range, reloadTime, timeBetweenShots;
     public float magazineSize;
 
 
@@ -48,7 +50,7 @@ public class GunStatsSystem : MonoBehaviour
     [SerializeField] GameObject muzzleFlash, bulletHoleGraphic;
     [SerializeField] TrailRenderer bulletTrail;
 
-    [SerializeField] float camShakeMagnitude, camShakeDuration;
+    [SerializeField] float camShakeDuration;
     [SerializeField] TextMeshProUGUI text;
     
     [Header("Animations")]
@@ -61,6 +63,8 @@ public class GunStatsSystem : MonoBehaviour
 
     private void Start() 
     {
+        UpdateStats();
+
         weaponSwayBobScript = GetComponent<WeaponSwayBob>();
 
         recoilAnimTimer = recoilAnimLength;
@@ -133,6 +137,7 @@ public class GunStatsSystem : MonoBehaviour
             StartCoroutine(SpawnTrail(trail, rayHitEnemy));
 
             GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHitEnemy.point, Quaternion.LookRotation(rayHitEnemy.normal));
+    
             Destroy(bulletHole, 5);
             
         } else if (hitSomthing)
@@ -145,7 +150,7 @@ public class GunStatsSystem : MonoBehaviour
         }
 
         //ShakeCamera
-        // CameraShake.Instance.ShakeCamera(camShakeMagnitude, camShakeDuration);
+        cameraShakeScipt.Shake();
 
         //Graphics 
         GameObject flash = Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);        
@@ -154,7 +159,7 @@ public class GunStatsSystem : MonoBehaviour
         bulletsLeft--;
         bulletsShot--;
 
-        Invoke("ResetShot", timeBetweenShooting);
+        Invoke("ResetShot", timeBetweenShots);
 
         playRecoilAnim = true;
         startedRecoil.Invoke();
@@ -216,7 +221,7 @@ public class GunStatsSystem : MonoBehaviour
         spread = baseSpread + increasedSpread;
         range = baseRange + increasedRange;
         reloadTime = baseReloadTime + increasedReloadTime;
-        timeBetweenShots = baseTimeBetweenShots + timeBetweenShots;
+        timeBetweenShots = baseTimeBetweenShots - decreaseTimeBetweenShots;
         magazineSize = baseMagazineSize + increasedMagazineSize;
     }
 }

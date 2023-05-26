@@ -5,8 +5,7 @@ using UnityEngine;
 public class WeaponAttachmentSystem : MonoBehaviour
 {
     private GunStatsSystem gunStatScript;
-    private WeaponBodySO weaponBodySO;
-    private WeaponPartListSO weaponPartListSO;
+    public WeaponBodySO weaponBodySO;
     [SerializeField] Transform attackPointOrigin;
     [SerializeField] Transform attackPoint;
     int weaponLayer = 8;
@@ -61,26 +60,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ChangeGrip();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ChangeStock();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ChangeScope();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            ChangeMag();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            ChangeBarrel();
-        }
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
@@ -90,7 +69,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
             {
                 ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
             }
-            
         }
     }
 
@@ -120,17 +98,47 @@ public class WeaponAttachmentSystem : MonoBehaviour
         }
     }
 
-    public void ChangeGrip()
+    public void ChangePart(WeaponPartSO weaponPartSO)
+    {
+        switch (weaponPartSO.partType)
+        {
+            case WeaponPartSO.PartType.Grip:
+                ChangeGrip(weaponPartSO);
+                break;
+
+            case WeaponPartSO.PartType.Stock:
+                ChangeStock(weaponPartSO);
+                break;
+
+            case WeaponPartSO.PartType.Scope:
+                ChangeScope(weaponPartSO);
+                break;
+
+            case WeaponPartSO.PartType.Mag:
+                ChangeMag(weaponPartSO);
+                break;
+
+            case WeaponPartSO.PartType.Barrel:
+                ChangeBarrel(weaponPartSO);
+                break;
+            
+            default:
+                break;
+        }
+    }
+
+    public void ChangeGrip(WeaponPartSO weaponPartSO)
     {
         // Remove grip from before
         Destroy(currentGrip);
 
         // Creates new grip
-        List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Grip);
+        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Grip);
 
-        int randomIndex = Random.Range(0, listOfPartTypes.Count);
+        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
     
-        GameObject prefab = listOfPartTypes[randomIndex].prefab;
+        // GameObject prefab = listOfPartTypes[randomIndex].prefab;
+        GameObject prefab = weaponPartSO.prefab;
         currentGrip = Instantiate(prefab);
         currentGrip.layer = weaponLayer;
 
@@ -145,20 +153,20 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentGrip.transform.localEulerAngles = Vector3.zero;
         currentGrip.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(listOfPartTypes[randomIndex]);
+        ChangeGunStats(weaponPartSO);
     }
 
-    public void ChangeStock()
+    public void ChangeStock(WeaponPartSO weaponPartSO)
     {
         // Remove Stock from before
         Destroy(currentStock);
 
         // Creates new Stock
-        List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Stock);
+        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Stock);
 
-        int randomIndex = Random.Range(0, listOfPartTypes.Count);
+        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
-        GameObject prefab = listOfPartTypes[randomIndex].prefab;
+        GameObject prefab = weaponPartSO.prefab;
         currentStock = Instantiate(prefab);
         currentStock.layer = weaponLayer;
 
@@ -173,20 +181,20 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentStock.transform.localEulerAngles = Vector3.zero;
         currentStock.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(listOfPartTypes[randomIndex]);
+        ChangeGunStats(weaponPartSO);
     }
 
-    public void ChangeScope()
+    public void ChangeScope(WeaponPartSO weaponPartSO)
     {
         // Remove Scope from before
         Destroy(currentScope);
 
         // Creates new Scope
-        List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Scope);
+        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Scope);
 
-        int randomIndex = Random.Range(0, listOfPartTypes.Count);
+        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
-        GameObject prefab = listOfPartTypes[randomIndex].prefab;
+        GameObject prefab = weaponPartSO.prefab;
         currentScope = Instantiate(prefab);
         currentScope.layer = weaponLayer;
 
@@ -201,20 +209,20 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentScope.transform.localEulerAngles = Vector3.zero;
         currentScope.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(listOfPartTypes[randomIndex]);
+        ChangeGunStats(weaponPartSO);
     }
 
-    public void ChangeMag()
+    public void ChangeMag(WeaponPartSO weaponPartSO)
     {
         // Remove Scope from before
         Destroy(currentMag);
 
         // Creates new Scope
-        List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Mag);
+        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Mag);
 
-        int randomIndex = Random.Range(0, listOfPartTypes.Count);
+        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
-        GameObject prefab = listOfPartTypes[randomIndex].prefab;
+        GameObject prefab = weaponPartSO.prefab;
         currentMag = Instantiate(prefab);
         currentMag.layer = weaponLayer;
 
@@ -229,20 +237,20 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentMag.transform.localEulerAngles = Vector3.zero;
         currentMag.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(listOfPartTypes[randomIndex]);
+        ChangeGunStats(weaponPartSO);
     }
 
-    public void ChangeBarrel() 
+    public void ChangeBarrel(WeaponPartSO weaponPartSO) 
     {
         // Remove Barrel from before
         Destroy(currentBarrel);
 
         // Creates new Barrel
-        List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Barrel);
+        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Barrel);
 
-        int randomIndex = Random.Range(0, listOfPartTypes.Count);
+        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
-        GameObject prefab = listOfPartTypes[randomIndex].prefab;
+        GameObject prefab = weaponPartSO.prefab;
         currentBarrel = Instantiate(prefab);
         currentBarrel.layer = weaponLayer;
 
@@ -257,13 +265,13 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentBarrel.transform.localEulerAngles = Vector3.zero;
         currentBarrel.transform.localPosition = Vector3.zero;
 
-        float barrelLength = listOfPartTypes[randomIndex].prefab.GetComponent<MeshRenderer>().bounds.size.z;
+        float barrelLength = weaponPartSO.prefab.GetComponent<MeshRenderer>().bounds.size.z;
 
         attackPoint.position = attackPointOrigin.position + attackPointOrigin.forward * barrelLength; 
 
-        ChangeMuzzle(listOfPartTypes[randomIndex], barrelLength);
+        ChangeMuzzle(weaponPartSO, barrelLength);
 
-        ChangeGunStats(listOfPartTypes[randomIndex]);
+        ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeMuzzle(WeaponPartSO weaponPartSO, float barrelLength)
@@ -331,7 +339,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
                 break;
             
             case WeaponPartSO.StatType.TimeBetweenShots:
-                gunStatScript.increasedTimeBetweenShots = weaponPartSO.statValue;
+                gunStatScript.decreaseTimeBetweenShots = weaponPartSO.statValue;
                 break;
             
             default:

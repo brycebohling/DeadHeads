@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Weapon
+  - ArmPivot
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - Ground
   - Enemy
   - Weapon
-  - 
+  - PickUpLayer
   - 
   - 
   - 
