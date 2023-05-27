@@ -58,7 +58,6 @@ public class WeaponPartSpawner : MonoBehaviour
             GameObject part = Instantiate(prefab, WeaponPartSpawn.position, Quaternion.identity);
 
             WeaponPartC partScript = part.AddComponent<WeaponPartC>();
-            part.AddComponent<BoxCollider>();
             partScript.SetPart(listOfPartTypes[randomIndex]);
         }
     }
