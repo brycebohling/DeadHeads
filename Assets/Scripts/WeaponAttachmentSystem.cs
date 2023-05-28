@@ -346,4 +346,53 @@ public class WeaponAttachmentSystem : MonoBehaviour
                 break;
         }        
     }
+
+    public Transform GetPartAttachPoint(WeaponPartSO.PartType partType)
+    {
+        if (weaponBodySO = weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            switch (partType)
+            {
+                case WeaponPartSO.PartType.Grip:
+                    return gripAAttachPoint;
+                
+                case WeaponPartSO.PartType.Stock:
+                    return stockAAttachPoint;
+                
+                case WeaponPartSO.PartType.Scope:
+                    return scopeAAttachPoint;
+
+                case WeaponPartSO.PartType.Barrel:
+                    return barrelAAttachPoint;
+
+                case WeaponPartSO.PartType.Mag:
+                    return magAAttachPoint;
+                
+                default:
+                    return null;
+            }
+        } else
+        {
+            switch (partType)
+            {
+                case WeaponPartSO.PartType.Grip:
+                    return gripBAttachPoint;
+                
+                case WeaponPartSO.PartType.Stock:
+                    return stockBAttachPoint;
+                
+                case WeaponPartSO.PartType.Scope:
+                    return scopeBAttachPoint;
+
+                case WeaponPartSO.PartType.Barrel:
+                    return barrelBAttachPoint;
+
+                case WeaponPartSO.PartType.Mag:
+                    return magBAttachPoint;
+                
+                default:
+                    return null;
+            }
+        }
+    }
 }

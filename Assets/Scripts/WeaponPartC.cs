@@ -12,6 +12,15 @@ public class WeaponPartC : MonoBehaviour
     float colliderRadius = 0.5f;
     Vector3 centerOfMesh;
     Vector3 weaponCenterPoint;
+    bool equiping;
+    float weaponLerp;
+    float weaponLerpSpeed = 2f;
+    float equipHeight = .5f;
+    Transform attachPoint;
+    Vector3 partStartPoint;
+    Vector3 partControlPoint;
+    Vector3 partEndPoint;
+    GameObject rarityParticles;
 
 
     void Start() 
@@ -36,14 +45,37 @@ public class WeaponPartC : MonoBehaviour
         // Creates parent to center the pivot point
         weaponCenterPoint = transform.TransformVector(centerOfMesh);
         Transform parentObject = new GameObject().GetComponent<Transform>();
+
         transform.SetParent(parentObject);
         transform.parent.name = "WeaponPartParent";
         transform.parent.position = transform.position;
         transform.localPosition = Vector3.zero - weaponCenterPoint;
+
+        // Creates the particles
+        GameObject particles = Instantiate(rarityParticles, parentObject.transform.position, Quaternion.identity);
+        particles.transform.SetParent(transform);
     }
 
     private void Update() 
     {
+
+        if (equiping)
+        {
+            if (weaponLerp < 1.0f) 
+            {
+                weaponLerp += weaponLerpSpeed * Time.deltaTime;
+
+                Vector3 m1 = Vector3.Lerp(partStartPoint, partControlPoint, weaponLerp);
+                Vector3 m2 = Vector3.Lerp(partControlPoint, partEndPoint, weaponLerp);
+                transform.position = Vector3.Lerp(m1, m2, weaponLerp);
+            } else
+            {
+                weaponAttachmentSystemScript.ChangePart(weaponPartSO);
+                Destroy(transform.parent.gameObject);
+            }
+
+        
+        }
 
         transform.parent.Rotate(0, 35 * Time.deltaTime, 0);
         currentPos = transform.position;
@@ -51,15 +83,20 @@ public class WeaponPartC : MonoBehaviour
         transform.position = currentPos;
     }
 
-    public void SetPart(WeaponPartSO part)
+    public void SetPart(WeaponPartSO part, Transform equipPoint, GameObject particles)
     {
         weaponPartSO = part;
         gameObject.layer = LayerMask.NameToLayer("PickUpLayer");
+        attachPoint = equipPoint;
+        rarityParticles = particles;
     }
 
     public void Equip()
     {
-        weaponAttachmentSystemScript.ChangePart(weaponPartSO);
-        Destroy(transform.parent.gameObject);
+        partStartPoint = transform.position;
+        partEndPoint = attachPoint.position;
+        partControlPoint = partStartPoint + (partEndPoint - partStartPoint)/2 + Vector3.up * equipHeight;
+
+        equiping = true;
     }
 }

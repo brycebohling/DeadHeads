@@ -6,7 +6,8 @@ public class WeaponPartSpawner : MonoBehaviour
 {
     [SerializeField] WeaponAttachmentSystem weaponAttachmentSystemScript;
     [SerializeField] Transform WeaponPartSpawn;
-
+    [SerializeField] GameObject rarityParticles;
+    Transform attachPoint;
 
     void Update()
     {
@@ -58,7 +59,9 @@ public class WeaponPartSpawner : MonoBehaviour
             GameObject part = Instantiate(prefab, WeaponPartSpawn.position, Quaternion.identity);
 
             WeaponPartC partScript = part.AddComponent<WeaponPartC>();
-            partScript.SetPart(listOfPartTypes[randomIndex]);
+
+            attachPoint = weaponAttachmentSystemScript.GetPartAttachPoint(listOfPartTypes[randomIndex].partType);
+            partScript.SetPart(listOfPartTypes[randomIndex], attachPoint, rarityParticles);
         }
     }
 }

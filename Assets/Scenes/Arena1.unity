@@ -3334,6 +3334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponAttachmentSystemScript: {fileID: 1872222216}
   WeaponPartSpawn: {fileID: 641938129}
+  rarityParticles: {fileID: 8356209843970906082, guid: b676fa1cf3f2b4507bd011b4f70b3144,
+    type: 3}
 --- !u!1001 &592146320
 PrefabInstance:
   m_ObjectHideFlags: 0
