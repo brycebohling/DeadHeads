@@ -3336,6 +3336,19 @@ MonoBehaviour:
   WeaponPartSpawn: {fileID: 641938129}
   rarityParticles: {fileID: 8356209843970906082, guid: b676fa1cf3f2b4507bd011b4f70b3144,
     type: 3}
+  rarityList:
+  - rarityName: Common
+    chance: 0.5
+    particleColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 1}
+  - rarityName: Rare
+    chance: 0.3
+    particleColor: {r: 0, g: 0.37633944, b: 1, a: 1}
+  - rarityName: Epic
+    chance: 0.15
+    particleColor: {r: 0.6876073, g: 0, b: 1, a: 1}
+  - rarityName: Legendary
+    chance: 0.05
+    particleColor: {r: 1, g: 0.34909332, b: 0, a: 1}
 --- !u!1001 &592146320
 PrefabInstance:
   m_ObjectHideFlags: 0

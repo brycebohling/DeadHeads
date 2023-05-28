@@ -10,17 +10,22 @@ public class WeaponPartC : MonoBehaviour
     float bobAmplitude = 0.005f;
     Vector3 currentPos;
     float colliderRadius = 0.5f;
+    MeshRenderer meshChildhRend;
     Vector3 centerOfMesh;
+    float meshLength;
+    float meshHeight;
+    float particleLenghtFromPart = 0.18f;
     Vector3 weaponCenterPoint;
     bool equiping;
     float weaponLerp;
-    float weaponLerpSpeed = 2f;
-    float equipHeight = .5f;
+    float weaponLerpSpeed = 4f;
+    float equipHeight = 0.5f;
     Transform attachPoint;
     Vector3 partStartPoint;
     Vector3 partControlPoint;
     Vector3 partEndPoint;
     GameObject rarityParticles;
+    Color particleColor;
 
 
     void Start() 
@@ -34,9 +39,14 @@ public class WeaponPartC : MonoBehaviour
         if (TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
         {
             centerOfMesh = meshRenderer.localBounds.center;
+            meshLength = meshRenderer.localBounds.size.z;
+            meshHeight = meshRenderer.localBounds.size.y;
         } else
         {
-            centerOfMesh = GetComponentInChildren<MeshRenderer>().localBounds.center;
+            meshChildhRend = GetComponentInChildren<MeshRenderer>();
+            centerOfMesh = meshChildhRend.localBounds.center;
+            meshLength = meshChildhRend.localBounds.size.z;
+            meshHeight = meshChildhRend.localBounds.size.y;
         }
         
         collider.center = centerOfMesh;
@@ -53,6 +63,22 @@ public class WeaponPartC : MonoBehaviour
 
         // Creates the particles
         GameObject particles = Instantiate(rarityParticles, parentObject.transform.position, Quaternion.identity);
+        ParticleSystem.MainModule particleSettings = particles.GetComponent<ParticleSystem>().main;
+        particleSettings.startColor = particleColor;
+
+        if (meshLength > meshHeight)
+        {
+            particleSettings.startSizeX = meshLength + particleLenghtFromPart;
+            particleSettings.startSizeY = meshLength + particleLenghtFromPart;
+            particleSettings.startSizeZ = meshLength + particleLenghtFromPart;
+        } else
+        {
+            particleSettings.startSizeX = meshHeight + particleLenghtFromPart;
+            particleSettings.startSizeY = meshHeight + particleLenghtFromPart;
+            particleSettings.startSizeZ = meshHeight + particleLenghtFromPart;
+        }
+        
+
         particles.transform.SetParent(transform);
     }
 
@@ -73,8 +99,6 @@ public class WeaponPartC : MonoBehaviour
                 weaponAttachmentSystemScript.ChangePart(weaponPartSO);
                 Destroy(transform.parent.gameObject);
             }
-
-        
         }
 
         transform.parent.Rotate(0, 35 * Time.deltaTime, 0);
@@ -83,12 +107,13 @@ public class WeaponPartC : MonoBehaviour
         transform.position = currentPos;
     }
 
-    public void SetPart(WeaponPartSO part, Transform equipPoint, GameObject particles)
+    public void SetPart(WeaponPartSO part, Transform equipPoint, GameObject particles, Color color)
     {
         weaponPartSO = part;
         gameObject.layer = LayerMask.NameToLayer("PickUpLayer");
         attachPoint = equipPoint;
         rarityParticles = particles;
+        particleColor = color;
     }
 
     public void Equip()
