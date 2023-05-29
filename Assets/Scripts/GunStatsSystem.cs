@@ -59,6 +59,11 @@ public class GunStatsSystem : MonoBehaviour
     float recoilAnimTimer;
     bool playRecoilAnim;
     [SerializeField] float recoilLerpSpeed;
+
+    [Header("Audio")]
+    [SerializeField] AudioSource shootSFX;
+    [SerializeField] AudioSource reloadSFX;
+    [SerializeField] float timeBetweenReloadSFX;
     
 
     private void Start() 
@@ -105,8 +110,11 @@ public class GunStatsSystem : MonoBehaviour
         if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
         else shooting = Input.GetKeyDown(KeyCode.Mouse0);
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
-
+        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading)
+        {
+            StartCoroutine(Reload());
+        }
+        
         //Shoot
         if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
         {
@@ -163,6 +171,8 @@ public class GunStatsSystem : MonoBehaviour
 
         playRecoilAnim = true;
         startedRecoil.Invoke();
+
+        shootSFX.PlayOneShot(shootSFX.clip, 1f);
     }
 
     private void RecoilAnim()
@@ -175,12 +185,19 @@ public class GunStatsSystem : MonoBehaviour
         readyToShoot = true;
     }
 
-    private void Reload()
+    private IEnumerator Reload()
     {
         startedReloading.Invoke();
 
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
+
+        while(reloading)
+        {
+            reloadSFX.PlayOneShot(reloadSFX.clip, 1f);
+
+            yield return new WaitForSeconds(timeBetweenReloadSFX);
+        }
     }
 
     private void ReloadingAnim()

@@ -33,6 +33,10 @@ public class PlayerC : MonoBehaviour
     RaycastHit rayHitWeaponPart;
     [SerializeField] GameObject partPickUpTextObject;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource walkSFX;
+    [SerializeField] float timeBetweenWalkSFX;
+    float timeBetweenWalkSFXTimer;
 
 
     private void Start()
@@ -69,6 +73,16 @@ public class PlayerC : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+
+        if (move.x != 0 && timeBetweenWalkSFXTimer < 0 || move.z != 0 && timeBetweenWalkSFXTimer < 0)
+        {
+            float randomSoundVolume = Random.Range(0.5f, 1f);
+            walkSFX.PlayOneShot(walkSFX.clip, 1f);
+            timeBetweenWalkSFXTimer = timeBetweenWalkSFX;
+        } else
+        {
+            timeBetweenWalkSFXTimer -= Time.deltaTime;
+        }
     }
 
     private void HandleRunning()

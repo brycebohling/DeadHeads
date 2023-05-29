@@ -10,6 +10,9 @@ public class WeaponAttachmentSystem : MonoBehaviour
     [SerializeField] Transform attackPoint;
     int weaponLayer = 8;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource equipPartSFX;
+
     [Header("Body")]
     [SerializeField] WeaponBodyListSO weaponBodyListSO;
 
@@ -56,6 +59,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         gunStatScript = GetComponent<GunStatsSystem>();
 
         ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
+        SpawnBasicWeapon();
     }
 
     void Update()
@@ -125,6 +129,36 @@ public class WeaponAttachmentSystem : MonoBehaviour
             default:
                 break;
         }
+
+        equipPartSFX.PlayOneShot(equipPartSFX.clip, 1f);
+    }
+
+    public void SpawnBasicWeapon()
+    {
+        // Random Grip
+        List<WeaponPartSO> listOfGripPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Grip);
+        int randomIndex = Random.Range(0, listOfGripPartTypes.Count);
+        ChangeGrip(listOfGripPartTypes[randomIndex]);
+
+        // Random Stock
+        List<WeaponPartSO> listOfStockPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Stock);
+        randomIndex = Random.Range(0, listOfStockPartTypes.Count);
+        ChangeStock(listOfStockPartTypes[randomIndex]);
+
+        // Random Scope
+        List<WeaponPartSO> listOfScopePartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Scope);
+        randomIndex = Random.Range(0, listOfScopePartTypes.Count);
+        ChangeScope(listOfScopePartTypes[randomIndex]);
+
+        // Random Barrel
+        List<WeaponPartSO> listOfBarrelPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Barrel);
+        randomIndex = Random.Range(0, listOfBarrelPartTypes.Count);
+        ChangeBarrel(listOfBarrelPartTypes[randomIndex]);
+    
+        // Random Mag
+        List<WeaponPartSO> listOfMagPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Mag);
+        randomIndex = Random.Range(0, listOfMagPartTypes.Count);
+        ChangeMag(listOfMagPartTypes[randomIndex]);        
     }
 
     public void ChangeGrip(WeaponPartSO weaponPartSO)
