@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df465c9f0727649de93dc9202e873798, type: 3}
-  m_Name: WeaponBStock6
+  m_Name: WeaponBBarrel1
   m_EditorClassIdentifier: 
-  partType: 1
-  prefab: {fileID: 1506307712928722, guid: 5622f76308acafb45b0f6e47a9533b93, type: 3}
-  statType: 1
+  partType: 3
+  prefab: {fileID: 1768567697993582, guid: ba454abc073197a4d86d2ace7885a4ed, type: 3}
+  statType: 0
   statValue: 0

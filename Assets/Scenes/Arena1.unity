@@ -6998,18 +6998,6 @@ PrefabInstance:
       propertyPath: playerScript
       value: 
       objectReference: {fileID: 536573765}
-    - target: {fileID: 1872222220, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1872222221, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1872222222, guid: 09ad443eeea424635b98850c7f30f47c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2893809625232431648, guid: 09ad443eeea424635b98850c7f30f47c,
         type: 3}
       propertyPath: text

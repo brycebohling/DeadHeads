@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponAttachmentSystem : MonoBehaviour
 {
-    private GunStatsSystem gunStatScript;
+    private WeaponC weaponCScript;
     public WeaponBodySO weaponBodySO;
     [SerializeField] Transform attackPointOrigin;
     [SerializeField] Transform attackPoint;
@@ -14,9 +14,11 @@ public class WeaponAttachmentSystem : MonoBehaviour
     [SerializeField] AudioSource equipPartSFX;
 
     [Header("Body")]
+    [SerializeField] GameObject currentWeaponBody;
     [SerializeField] WeaponBodyListSO weaponBodyListSO;
 
     [Header("Rail")]
+    [SerializeField] GameObject currentRail;
     [SerializeField] GameObject weaponARail;
     [SerializeField] Transform weaponARailAttachPoint;
     [SerializeField] GameObject weaponBRail;
@@ -56,7 +58,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     private void Start() 
     {
-        gunStatScript = GetComponent<GunStatsSystem>();
+        weaponCScript = GetComponent<WeaponC>();
 
         ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
         SpawnBasicWeapon();
@@ -76,30 +78,42 @@ public class WeaponAttachmentSystem : MonoBehaviour
         }
     }
 
-    public void ChangeBody(WeaponBodySO weaponBodySO) 
+    public void ChangeBody(WeaponBodySO bodySO) 
     {
-        this.weaponBodySO = weaponBodySO;
+        Destroy(currentWeaponBody);
+        Destroy(currentGrip);
+        Destroy(currentStock);
+        Destroy(currentScope);
+        Destroy(currentBarrel);
+        Destroy(currentMuzzle);
+        Destroy(currentMag);
 
-        GameObject weaponBodyGameobject = Instantiate(weaponBodySO.prefab); 
-        weaponBodyGameobject.transform.parent = transform;
-        weaponBodyGameobject.transform.localPosition = Vector3.zero; 
-        weaponBodyGameobject.layer = weaponLayer;
+        Destroy(currentRail);
+        Destroy(currentWeaponBody);
+
+        weaponBodySO = bodySO;
+
+        currentWeaponBody = Instantiate(weaponBodySO.prefab); 
+        currentWeaponBody.transform.parent = transform;
+        currentWeaponBody.transform.localPosition = Vector3.zero; 
+        currentWeaponBody.transform.localRotation = Quaternion.identity;
+        currentWeaponBody.layer = weaponLayer;
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
-            GameObject railPrefab = Instantiate(weaponARail);
-            railPrefab.transform.parent = weaponARailAttachPoint;
-            railPrefab.transform.localPosition = Vector3.zero;
-            railPrefab.layer = weaponLayer;
+            currentRail = Instantiate(weaponARail);
+            currentRail.transform.parent = weaponARailAttachPoint;
         }
 
         if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
         {
-            GameObject railPrefab = Instantiate(weaponBRail);
-            railPrefab.transform.parent = weaponBRailAttachPoint;
-            railPrefab.transform.localPosition = Vector3.zero; 
-            railPrefab.layer = weaponLayer;
+            currentRail = Instantiate(weaponBRail);
+            currentRail.transform.parent = weaponBRailAttachPoint;
         }
+
+        currentRail.transform.localPosition = Vector3.zero; 
+        currentRail.transform.localRotation = Quaternion.identity;
+        currentRail.layer = weaponLayer;
     }
 
     public void ChangePart(WeaponPartSO weaponPartSO)
@@ -163,26 +177,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     public void ChangeGrip(WeaponPartSO weaponPartSO)
     {
-        // Remove grip from before
         Destroy(currentGrip);
 
-        // Creates new grip
-        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Grip);
-
-        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
-    
-        // GameObject prefab = listOfPartTypes[randomIndex].prefab;
         GameObject prefab = weaponPartSO.prefab;
         currentGrip = Instantiate(prefab);
         currentGrip.layer = weaponLayer;
 
-        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
-        {
-            currentGrip.transform.parent = gripAAttachPoint;
-        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
-        {
-            currentGrip.transform.parent = gripBAttachPoint;
-        }
+        Transform attachPoint = GetPartAttachPoint(WeaponPartSO.PartType.Grip);
+        currentGrip.transform.parent = attachPoint; 
 
         currentGrip.transform.localEulerAngles = Vector3.zero;
         currentGrip.transform.localPosition = Vector3.zero;
@@ -192,25 +194,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     public void ChangeStock(WeaponPartSO weaponPartSO)
     {
-        // Remove Stock from before
         Destroy(currentStock);
-
-        // Creates new Stock
-        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Stock);
-
-        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
         GameObject prefab = weaponPartSO.prefab;
         currentStock = Instantiate(prefab);
         currentStock.layer = weaponLayer;
 
-        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
-        {
-            currentStock.transform.parent = stockAAttachPoint;
-        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
-        {
-            currentStock.transform.parent = stockBAttachPoint;
-        }
+        Transform attachPoint = GetPartAttachPoint(WeaponPartSO.PartType.Stock);
+        currentStock.transform.parent = attachPoint; 
         
         currentStock.transform.localEulerAngles = Vector3.zero;
         currentStock.transform.localPosition = Vector3.zero;
@@ -220,25 +211,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     public void ChangeScope(WeaponPartSO weaponPartSO)
     {
-        // Remove Scope from before
         Destroy(currentScope);
-
-        // Creates new Scope
-        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Scope);
-
-        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
         GameObject prefab = weaponPartSO.prefab;
         currentScope = Instantiate(prefab);
         currentScope.layer = weaponLayer;
 
-        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
-        {
-            currentScope.transform.parent = scopeAAttachPoint;
-        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
-        {
-            currentScope.transform.parent = scopeBAttachPoint;
-        }
+        Transform attachPoint = GetPartAttachPoint(WeaponPartSO.PartType.Scope);
+        currentScope.transform.parent = attachPoint; 
 
         currentScope.transform.localEulerAngles = Vector3.zero;
         currentScope.transform.localPosition = Vector3.zero;
@@ -248,25 +228,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     public void ChangeMag(WeaponPartSO weaponPartSO)
     {
-        // Remove Scope from before
         Destroy(currentMag);
-
-        // Creates new Scope
-        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Mag);
-
-        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
         GameObject prefab = weaponPartSO.prefab;
         currentMag = Instantiate(prefab);
         currentMag.layer = weaponLayer;
 
-        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
-        {
-            currentMag.transform.parent = magAAttachPoint;
-        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
-        {
-            currentMag.transform.parent = magBAttachPoint;
-        }
+        Transform attachPoint = GetPartAttachPoint(WeaponPartSO.PartType.Mag);
+        currentMag.transform.parent = attachPoint; 
 
         currentMag.transform.localEulerAngles = Vector3.zero;
         currentMag.transform.localPosition = Vector3.zero;
@@ -276,25 +245,14 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     public void ChangeBarrel(WeaponPartSO weaponPartSO) 
     {
-        // Remove Barrel from before
         Destroy(currentBarrel);
-
-        // Creates new Barrel
-        // List<WeaponPartSO> listOfPartTypes = weaponBodySO.weaponPartListSO.GetWeaponPartSOList(WeaponPartSO.PartType.Barrel);
-
-        // int randomIndex = Random.Range(0, listOfPartTypes.Count);
         
         GameObject prefab = weaponPartSO.prefab;
         currentBarrel = Instantiate(prefab);
         currentBarrel.layer = weaponLayer;
 
-        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
-        {
-            currentBarrel.transform.parent = barrelAAttachPoint;
-        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
-        {
-            currentBarrel.transform.parent = barrelBAttachPoint;
-        }
+        Transform attachPoint = GetPartAttachPoint(WeaponPartSO.PartType.Barrel);
+        currentBarrel.transform.parent = attachPoint; 
 
         currentBarrel.transform.localEulerAngles = Vector3.zero;
         currentBarrel.transform.localPosition = Vector3.zero;
@@ -303,7 +261,10 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         attackPoint.position = attackPointOrigin.position + attackPointOrigin.forward * barrelLength; 
 
-        ChangeMuzzle(weaponPartSO, barrelLength);
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            ChangeMuzzle(weaponPartSO, barrelLength);
+        }
 
         ChangeGunStats(weaponPartSO);
     }
@@ -334,13 +295,8 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentMuzzle = Instantiate(bestFitMuzzle);
         currentMuzzle.layer = weaponLayer;
 
-        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
-        {
-            currentMuzzle.transform.parent = muzzleAAttachPoint;
-        } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
-        {
-            currentMuzzle.transform.parent = muzzleBAttachPoint;
-        }
+        Transform attachPoint = GetPartAttachPoint(WeaponPartSO.PartType.Muzzle);
+        currentMuzzle.transform.parent = attachPoint;
 
         currentMuzzle.transform.localEulerAngles = Vector3.zero;
         currentMuzzle.transform.localPosition = Vector3.zero;
@@ -353,27 +309,27 @@ public class WeaponAttachmentSystem : MonoBehaviour
         switch (weaponPartSO.statType)
         {
             case WeaponPartSO.StatType.Damage:
-                gunStatScript.increasedDamage = weaponPartSO.statValue;
+                weaponCScript.increasedDamage = weaponPartSO.statValue;
                 break;
             
             case WeaponPartSO.StatType.MagazineSize:
-                gunStatScript.increasedMagazineSize = weaponPartSO.statValue;
+                weaponCScript.increasedMagazineSize = weaponPartSO.statValue;
                 break;
             
             case WeaponPartSO.StatType.Range:
-                gunStatScript.increasedRange = weaponPartSO.statValue;
+                weaponCScript.increasedRange = weaponPartSO.statValue;
                 break;
 
             case WeaponPartSO.StatType.ReloadTime:
-                gunStatScript.increasedReloadTime = weaponPartSO.statValue;
+                weaponCScript.increasedReloadTime = weaponPartSO.statValue;
                 break;
 
             case WeaponPartSO.StatType.Spread:
-                gunStatScript.increasedSpread = weaponPartSO.statValue;
+                weaponCScript.increasedSpread = weaponPartSO.statValue;
                 break;
             
             case WeaponPartSO.StatType.TimeBetweenShots:
-                gunStatScript.decreaseTimeBetweenShots = weaponPartSO.statValue;
+                weaponCScript.decreaseTimeBetweenShots = weaponPartSO.statValue;
                 break;
             
             default:
@@ -383,7 +339,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     public Transform GetPartAttachPoint(WeaponPartSO.PartType partType)
     {
-        if (weaponBodySO = weaponBodyListSO.rifleAWeaponBodySO)
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
             switch (partType)
             {
@@ -402,6 +358,8 @@ public class WeaponAttachmentSystem : MonoBehaviour
                 case WeaponPartSO.PartType.Mag:
                     return magAAttachPoint;
                 
+                case WeaponPartSO.PartType.Muzzle:
+                    return muzzleAAttachPoint;
                 default:
                     return null;
             }
@@ -423,6 +381,9 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
                 case WeaponPartSO.PartType.Mag:
                     return magBAttachPoint;
+
+                case WeaponPartSO.PartType.Muzzle:
+                    return muzzleBAttachPoint;
                 
                 default:
                     return null;

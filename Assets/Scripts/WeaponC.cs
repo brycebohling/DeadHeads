@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 
-public class GunStatsSystem : MonoBehaviour
+public class WeaponC : MonoBehaviour
 {
     [Header("Events")]
     public UnityEvent startedReloading;
@@ -85,9 +85,7 @@ public class GunStatsSystem : MonoBehaviour
         if (reloading)
         {
             ReloadingAnim();
-        }
-
-        if (playRecoilAnim)
+        } else if (playRecoilAnim)
         {
             RecoilAnim();
 
