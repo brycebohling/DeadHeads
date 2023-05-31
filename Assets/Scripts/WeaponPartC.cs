@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponPartC : MonoBehaviour
 {
     WeaponAttachmentSystem weaponAttachmentSystemScript;
+    WeaponC weaponCScript;
     WeaponPartSO weaponPartSO;
+    Transform parentObject;
     float bobFrequency = 1;
     float bobAmplitude = 0.005f;
     Vector3 currentPos;
@@ -27,10 +30,18 @@ public class WeaponPartC : MonoBehaviour
     GameObject rarityParticles;
     Color particleColor;
 
+    Canvas partCanvas;
+    Slider valueSlider;
+    float partValue;
+
+    Transform player;
+
 
     void Start() 
     {
         weaponAttachmentSystemScript = GameObject.FindWithTag("Weapon").GetComponent<WeaponAttachmentSystem>();
+        weaponCScript = GameObject.FindWithTag("Weapon").GetComponent<WeaponC>();
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
 
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.isTrigger = true;
@@ -54,7 +65,7 @@ public class WeaponPartC : MonoBehaviour
 
         // Creates parent to center the pivot point
         weaponCenterPoint = transform.TransformVector(centerOfMesh);
-        Transform parentObject = new GameObject().GetComponent<Transform>();
+        parentObject = new GameObject().GetComponent<Transform>();
 
         transform.SetParent(parentObject);
         transform.parent.name = "WeaponPartParent";
@@ -80,6 +91,7 @@ public class WeaponPartC : MonoBehaviour
         
 
         particles.transform.SetParent(transform);
+        partCanvas.transform.SetParent(parentObject);
     }
 
     private void Update() 
@@ -97,31 +109,45 @@ public class WeaponPartC : MonoBehaviour
             } else
             {
                 weaponAttachmentSystemScript.ChangePart(weaponPartSO);
+                weaponCScript.ChangeGunStats(weaponPartSO, partValue);
                 Destroy(transform.parent.gameObject);
             }
+
+            return;
         }
 
         transform.parent.Rotate(0, 35 * Time.deltaTime, 0);
         currentPos = transform.position;
         currentPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * bobFrequency) * bobAmplitude;
         transform.position = currentPos;
+
+        partCanvas.transform.LookAt(player);
     }
 
-    public void SetPart(WeaponPartSO part, Transform equipPoint, GameObject particles, Color color)
+    public void SetPart(WeaponPartSO part, Transform equipPoint, GameObject particles, Color color, Canvas canvas, List<float> values)
     {
         weaponPartSO = part;
         gameObject.layer = LayerMask.NameToLayer("PickUpLayer");
         attachPoint = equipPoint;
         rarityParticles = particles;
         particleColor = color;
+
+        partCanvas = Instantiate(canvas, transform.position, Quaternion.identity);
+        // Parents partCanvas in the start func
+        valueSlider = partCanvas.GetComponentInChildren<Slider>();
+        valueSlider.value = values[0] / values[1];
+        partValue = values[0];
     }
 
     public void Equip()
     {
+        partCanvas.gameObject.SetActive(false);
+
         partStartPoint = transform.position;
         partEndPoint = attachPoint.position;
         partControlPoint = partStartPoint + (partEndPoint - partStartPoint)/2 + Vector3.up * equipHeight;
 
         equiping = true;
+
     }
 }

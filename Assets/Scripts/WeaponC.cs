@@ -27,14 +27,6 @@ public class WeaponC : MonoBehaviour
     [Header("Base Stats")]
     [SerializeField] int bulletsPerTap;
     [SerializeField] float baseDamage, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
-    
-    [Header("Stat Ranges")]
-    [Range(0.0f, 900f)][SerializeField] float damgeStatRange;
-    [Range(0.0f, 900f)][SerializeField] float magSizeStatRange;
-    [Range(0.0f, 900f)][SerializeField] float rangeStatRange;
-    [Range(0.0f, 900f)][SerializeField] float reloadStatRange;
-    [Range(0.0f, 900f)][SerializeField] float spreadStatRange;
-    [Range(0.0f, 900f)][SerializeField] float timeBetweenShotsStatRange;
 
     // total stats
     float damage;
@@ -226,32 +218,32 @@ public class WeaponC : MonoBehaviour
         Destroy(trail.gameObject, trail.time);
     }
 
-    public void ChangeGunStats(WeaponPartSO weaponPartSO)
+    public void ChangeGunStats(WeaponPartSO weaponPartSO, float value)
     {
         switch (weaponPartSO.statType)
         {
             case WeaponPartSO.StatType.Damage:
-                damage = baseDamage + damgeStatRange;
+                damage = baseDamage + value;
                 break;
             
             case WeaponPartSO.StatType.MagazineSize:
-                magazineSize = baseMagazineSize + magSizeStatRange;
+                magazineSize = baseMagazineSize + value;
                 break;
             
             case WeaponPartSO.StatType.Range:
-                range = baseRange + rangeStatRange;
+                range = baseRange + value;
                 break;
 
             case WeaponPartSO.StatType.ReloadTime:
-                reloadTime = baseReloadTime - reloadStatRange;
+                reloadTime = baseReloadTime - value;
                 break;
 
             case WeaponPartSO.StatType.Spread:
-                spread = baseSpread - spreadStatRange;
+                spread = baseSpread - value;
                 break;
             
             case WeaponPartSO.StatType.TimeBetweenShots:
-                timeBetweenShots = baseTimeBetweenShots - timeBetweenShotsStatRange;
+                timeBetweenShots = baseTimeBetweenShots - value;
                 break;
 
             default:

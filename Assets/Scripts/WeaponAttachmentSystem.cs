@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WeaponAttachmentSystem : MonoBehaviour
 {
-    private WeaponC weaponCScript;
     public WeaponBodySO weaponBodySO;
     [Header("AttackPoints")]
     [SerializeField] Transform attackPointAOrigin;
@@ -61,8 +60,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
     private void Start() 
     {
-        weaponCScript = GetComponent<WeaponC>();
-
         ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
         SpawnBasicWeapon();
     }
@@ -193,8 +190,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         currentGrip.transform.localEulerAngles = Vector3.zero;
         currentGrip.transform.localPosition = Vector3.zero;
-
-        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeStock(WeaponPartSO weaponPartSO)
@@ -210,8 +205,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
         
         currentStock.transform.localEulerAngles = Vector3.zero;
         currentStock.transform.localPosition = Vector3.zero;
-
-        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeScope(WeaponPartSO weaponPartSO)
@@ -227,8 +220,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         currentScope.transform.localEulerAngles = Vector3.zero;
         currentScope.transform.localPosition = Vector3.zero;
-
-        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeMag(WeaponPartSO weaponPartSO)
@@ -244,8 +235,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         currentMag.transform.localEulerAngles = Vector3.zero;
         currentMag.transform.localPosition = Vector3.zero;
-
-        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeBarrel(WeaponPartSO weaponPartSO) 
@@ -278,8 +267,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
         {
             ChangeMuzzle(weaponPartSO, barrelLength);
         }
-
-        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeMuzzle(WeaponPartSO weaponPartSO, float barrelLength)

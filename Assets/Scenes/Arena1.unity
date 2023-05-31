@@ -3432,6 +3432,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponAttachmentSystemScript: {fileID: 1872222216}
+  damgeStatLow: 1
+  damgeStatHigh: 10
+  magSizeStatLow: 1
+  magSizeStatHigh: 10
+  rangeStatLow: 1
+  rangeStatHigh: 10
+  reloadSpeedStatLow: 0.01
+  reloadSpeedStatHigh: 0.5
+  spreadStatLow: 0.01
+  spreadStatHigh: 0.1
+  timeBetweenShotsStatLow: 0.01
+  timeBetweenShotsStatHigh: 0.05
   WeaponPartSpawn: {fileID: 641938129}
   rarityParticles: {fileID: 8356209843970906082, guid: b676fa1cf3f2b4507bd011b4f70b3144,
     type: 3}
@@ -3448,6 +3460,8 @@ MonoBehaviour:
   - rarityName: Legendary
     chance: 0.05
     particleColor: {r: 1, g: 0.34909332, b: 0, a: 1}
+  partCanvas: {fileID: 2572011596965501648, guid: 074e9093039674a1694f69598f040f6e,
+    type: 3}
 --- !u!1001 &592146320
 PrefabInstance:
   m_ObjectHideFlags: 0

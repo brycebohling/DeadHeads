@@ -1,11 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponPartSpawner : MonoBehaviour
 {
     [SerializeField] WeaponAttachmentSystem weaponAttachmentSystemScript;
+
+    [Header("Stat Raneges")]
+    [SerializeField] int damgeStatLow;
+    [SerializeField] int damgeStatHigh;
+    [SerializeField] int magSizeStatLow;
+    [SerializeField] int magSizeStatHigh;
+    [SerializeField] int rangeStatLow;
+    [SerializeField] int rangeStatHigh;
+    [SerializeField] float reloadSpeedStatLow;
+    [SerializeField] float reloadSpeedStatHigh;
+    [SerializeField] float spreadStatLow;
+    [SerializeField] float spreadStatHigh;
+    [SerializeField] float timeBetweenShotsStatLow;
+    [SerializeField] float timeBetweenShotsStatHigh;
+
     [SerializeField] Transform WeaponPartSpawn;
+
+    [Header("Rarity Stuffs")]
     [SerializeField] GameObject rarityParticles;
     Transform attachPoint;
     [System.Serializable] public struct RarityList
@@ -17,6 +35,9 @@ public class WeaponPartSpawner : MonoBehaviour
 
     [SerializeField] List<RarityList> rarityList;
     Color partRarityColor;
+
+    [Header("UI")]
+    [SerializeField] Canvas partCanvas;
     
 
     void Update()
@@ -83,6 +104,53 @@ public class WeaponPartSpawner : MonoBehaviour
             }
         }
 
-        partScript.SetPart(listOfPartTypes[randomIndex], attachPoint, rarityParticles, rarityList[rarityListIndex].particleColor);
+        List<float> sliderValues = RandomValue(listOfPartTypes[randomIndex].statType);
+        Debug.Log(sliderValues[0]);
+        Debug.Log(sliderValues[1]);
+
+        partScript.SetPart(listOfPartTypes[randomIndex], attachPoint, rarityParticles, rarityList[rarityListIndex].particleColor, partCanvas, sliderValues);
+    }
+
+    private List<float> RandomValue(WeaponPartSO.StatType statType)
+    {
+        List<float> sliderValues = new List<float>();
+
+        switch (statType)
+        {
+            case WeaponPartSO.StatType.Damage:
+                sliderValues.Add(Random.Range(damgeStatLow, damgeStatHigh));
+                sliderValues.Add(damgeStatHigh);
+                return sliderValues;
+            
+            case WeaponPartSO.StatType.MagazineSize:
+                sliderValues.Add(Random.Range(magSizeStatLow, magSizeStatHigh));
+                sliderValues.Add(magSizeStatHigh);
+                return sliderValues;
+   
+            case WeaponPartSO.StatType.Range:   
+                sliderValues.Add(Random.Range(rangeStatLow, rangeStatHigh));
+                sliderValues.Add(rangeStatHigh);
+                return sliderValues;
+        
+            case WeaponPartSO.StatType.Spread:
+                sliderValues.Add(Random.Range(spreadStatLow, spreadStatHigh));
+                sliderValues.Add(spreadStatHigh);
+                return sliderValues;
+
+            case WeaponPartSO.StatType.ReloadTime:
+                sliderValues.Add(Random.Range(reloadSpeedStatLow, reloadSpeedStatHigh));
+                sliderValues.Add(reloadSpeedStatHigh);
+                return sliderValues;
+
+            case WeaponPartSO.StatType.TimeBetweenShots:
+                sliderValues.Add(Random.Range(timeBetweenShotsStatLow, timeBetweenShotsStatHigh));
+                sliderValues.Add(timeBetweenShotsStatHigh);
+                return sliderValues;
+
+            default:
+                sliderValues.Add(1);
+                sliderValues.Add(100);
+                return sliderValues;
+        }
     }
 }
