@@ -14,7 +14,6 @@ public class WeaponC : MonoBehaviour
 
     [Header("References")]
     [SerializeField] CameraShake cameraShakeScipt;
-    WeaponSwayBob weaponSwayBobScript;
     [SerializeField] Camera mainCamera;
     [SerializeField] Transform attackPoint;
     [SerializeField] RaycastHit rayHitEnemy;
@@ -29,16 +28,18 @@ public class WeaponC : MonoBehaviour
     [SerializeField] int bulletsPerTap;
     [SerializeField] float baseDamage, baseSpread, baseRange, baseReloadTime, baseTimeBetweenShots, baseMagazineSize;
     
-
-    [Header("Public fields, DONT TOUCH")]
-    public float increasedDamage;
-    public float increasedSpread, increasedRange, increasedReloadTime, decreaseTimeBetweenShots;
-    public float increasedMagazineSize;
+    [Header("Stat Ranges")]
+    [Range(0.0f, 900f)][SerializeField] float damgeStatRange;
+    [Range(0.0f, 900f)][SerializeField] float magSizeStatRange;
+    [Range(0.0f, 900f)][SerializeField] float rangeStatRange;
+    [Range(0.0f, 900f)][SerializeField] float reloadStatRange;
+    [Range(0.0f, 900f)][SerializeField] float spreadStatRange;
+    [Range(0.0f, 900f)][SerializeField] float timeBetweenShotsStatRange;
 
     // total stats
-    public float damage;
-    public float spread, range, reloadTime, timeBetweenShots;
-    public float magazineSize;
+    float damage;
+    float spread, range, reloadTime, timeBetweenShots;
+    float magazineSize;
 
 
     // Other gun info
@@ -51,7 +52,7 @@ public class WeaponC : MonoBehaviour
     [SerializeField] TrailRenderer bulletTrail;
 
     [SerializeField] float camShakeDuration;
-    [SerializeField] TextMeshProUGUI text;
+    [SerializeField] TextMeshProUGUI ammoText;
     
     [Header("Animations")]
     [SerializeField] float reloadLerpSpeed;
@@ -68,18 +69,13 @@ public class WeaponC : MonoBehaviour
 
     private void Start() 
     {
-        UpdateStats();
-
-        weaponSwayBobScript = GetComponent<WeaponSwayBob>();
-
         recoilAnimTimer = recoilAnimLength;
-        bulletsLeft = magazineSize;
         readyToShoot = true;
+        InitializeStats();
     }
 
     private void Update()
     {
-        UpdateStats();
         MyInput();
 
         if (reloading)
@@ -100,7 +96,7 @@ public class WeaponC : MonoBehaviour
         }
 
         //SetText
-        text.SetText(bulletsLeft + " / " + magazineSize);
+        ammoText.SetText(bulletsLeft + " / " + magazineSize);
     }
 
     private void MyInput()
@@ -229,14 +225,47 @@ public class WeaponC : MonoBehaviour
 
         Destroy(trail.gameObject, trail.time);
     }
-    
-    private void UpdateStats()
+
+    public void ChangeGunStats(WeaponPartSO weaponPartSO)
     {
-        damage = baseDamage + increasedDamage;
-        spread = baseSpread + increasedSpread;
-        range = baseRange + increasedRange;
-        reloadTime = baseReloadTime + increasedReloadTime;
-        timeBetweenShots = baseTimeBetweenShots - decreaseTimeBetweenShots;
-        magazineSize = baseMagazineSize + increasedMagazineSize;
+        switch (weaponPartSO.statType)
+        {
+            case WeaponPartSO.StatType.Damage:
+                damage = baseDamage + damgeStatRange;
+                break;
+            
+            case WeaponPartSO.StatType.MagazineSize:
+                magazineSize = baseMagazineSize + magSizeStatRange;
+                break;
+            
+            case WeaponPartSO.StatType.Range:
+                range = baseRange + rangeStatRange;
+                break;
+
+            case WeaponPartSO.StatType.ReloadTime:
+                reloadTime = baseReloadTime - reloadStatRange;
+                break;
+
+            case WeaponPartSO.StatType.Spread:
+                spread = baseSpread - spreadStatRange;
+                break;
+            
+            case WeaponPartSO.StatType.TimeBetweenShots:
+                timeBetweenShots = baseTimeBetweenShots - timeBetweenShotsStatRange;
+                break;
+
+            default:
+                break;
+        }               
+    }
+
+    private void InitializeStats()
+    {
+        bulletsLeft = baseMagazineSize;
+        reloadTime = baseReloadTime;
+        damage = baseDamage;
+        range = baseRange;
+        spread = baseSpread;
+        timeBetweenShots = baseTimeBetweenShots;
     }
 }

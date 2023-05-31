@@ -31,6 +31,37 @@ Transform:
   m_Father: {fileID: 6966493867302047626}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &797560744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 797560745}
+  m_Layer: 8
+  m_Name: AttackPointB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &797560745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797560744}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.10049999, z: 0.333}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5963428403098884868}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1095587364
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112572404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.100899994, z: -0.12299991}
+  m_LocalPosition: {x: 0, y: 0.062, z: -0.064}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -117,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160561649}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.10049993, z: 0.21149993}
+  m_LocalPosition: {x: -0, y: 0.103, z: 0.328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -185,6 +216,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6966493867302047626}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1790221945
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1790221946}
+  m_Layer: 8
+  m_Name: AttackPointOriginB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1790221946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790221945}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.10049999, z: 0.333}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5963428403098884868}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2016238981
 GameObject:
@@ -289,7 +351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2893809625826224749}
   m_Layer: 8
-  m_Name: AttackPointOrigin
+  m_Name: AttackPointOriginA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2893809625903696755}
   m_Layer: 8
-  m_Name: AttackPoint
+  m_Name: AttackPointA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -675,6 +737,8 @@ Transform:
   - {fileID: 6966493867302047626}
   - {fileID: 2893809625903696755}
   - {fileID: 2893809625826224749}
+  - {fileID: 797560745}
+  - {fileID: 1790221946}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -691,8 +755,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponBodySO: {fileID: 0}
-  attackPointOrigin: {fileID: 2893809625826224749}
-  attackPoint: {fileID: 2893809625903696755}
+  attackPointAOrigin: {fileID: 2893809625826224749}
+  attackPointA: {fileID: 2893809625903696755}
+  attackPointBOrigin: {fileID: 1790221946}
+  attackPointB: {fileID: 797560745}
   equipPartSFX: {fileID: 1872222220}
   currentWeaponBody: {fileID: 0}
   weaponBodyListSO: {fileID: 11400000, guid: 664bb1560cdd9433b993b7f34f8ad12a, type: 2}
@@ -812,18 +878,12 @@ MonoBehaviour:
   baseReloadTime: 2
   baseTimeBetweenShots: 0.15
   baseMagazineSize: 30
-  increasedDamage: 0
-  increasedSpread: 0
-  increasedRange: 0
-  increasedReloadTime: 0
-  decreaseTimeBetweenShots: 0
-  increasedMagazineSize: 0
-  damage: 0
-  spread: 0
-  range: 0
-  reloadTime: 0
-  timeBetweenShots: 0
-  magazineSize: 0
+  damgeStatRange: 10
+  magSizeStatRange: 70
+  rangeStatRange: 80
+  reloadStatRange: 0.1
+  spreadStatRange: 0.1
+  timeBetweenShotsStatRange: 0.1
   allowButtonHold: 1
   muzzleFlash: {fileID: 8995903407173647474, guid: a3bf82833df6b4182adcb011841761df,
     type: 3}
@@ -832,7 +892,7 @@ MonoBehaviour:
   bulletTrail: {fileID: 4980242198854654724, guid: 895cb0a347a1c4896978523cca504327,
     type: 3}
   camShakeDuration: 0.05
-  text: {fileID: 0}
+  ammoText: {fileID: 0}
   reloadLerpSpeed: 0.05
   recoilAnimLength: 0.1
   recoilLerpSpeed: 2

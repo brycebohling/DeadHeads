@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: WeaponBMag8
   m_EditorClassIdentifier: 
   partType: 5
-  prefab: {fileID: 1281403737171864, guid: e08e43a3067aa9144afa6ceafdbf86d7, type: 3}
+  prefab: {fileID: 2454354182241752995, guid: 47b44516493ad47feb2dadcbe45c31a1, type: 3}
   statType: 5
   statValue: 0

@@ -7000,7 +7000,7 @@ PrefabInstance:
       objectReference: {fileID: 536573765}
     - target: {fileID: 2893809625232431648, guid: 09ad443eeea424635b98850c7f30f47c,
         type: 3}
-      propertyPath: text
+      propertyPath: ammoText
       value: 
       objectReference: {fileID: 1080855837}
     - target: {fileID: 2893809625232431648, guid: 09ad443eeea424635b98850c7f30f47c,
@@ -7020,6 +7020,16 @@ PrefabInstance:
       objectReference: {fileID: 862156303}
     - target: {fileID: 2893809625232431648, guid: 09ad443eeea424635b98850c7f30f47c,
         type: 3}
+      propertyPath: reloadStatRange
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893809625232431648, guid: 09ad443eeea424635b98850c7f30f47c,
+        type: 3}
+      propertyPath: spreadStatRange
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893809625232431648, guid: 09ad443eeea424635b98850c7f30f47c,
+        type: 3}
       propertyPath: cameraShakeScipt
       value: 
       objectReference: {fileID: 1161809854}
@@ -7028,6 +7038,11 @@ PrefabInstance:
       propertyPath: shootingEnemyScript
       value: 
       objectReference: {fileID: 555969759}
+    - target: {fileID: 2893809625232431648, guid: 09ad443eeea424635b98850c7f30f47c,
+        type: 3}
+      propertyPath: timeBetweenShotsStatRange
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5963428403098884868, guid: 09ad443eeea424635b98850c7f30f47c,
         type: 3}
       propertyPath: m_RootOrder

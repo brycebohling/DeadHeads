@@ -28,7 +28,6 @@ public class WeaponPartSO : ScriptableObject
     public PartType partType;
     public GameObject prefab;
     public StatType statType;
-    public float statValue;
 }   
 
 

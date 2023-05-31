@@ -6,8 +6,11 @@ public class WeaponAttachmentSystem : MonoBehaviour
 {
     private WeaponC weaponCScript;
     public WeaponBodySO weaponBodySO;
-    [SerializeField] Transform attackPointOrigin;
-    [SerializeField] Transform attackPoint;
+    [Header("AttackPoints")]
+    [SerializeField] Transform attackPointAOrigin;
+    [SerializeField] Transform attackPointA;
+    [SerializeField] Transform attackPointBOrigin;
+    [SerializeField] Transform attackPointB;
     int weaponLayer = 8;
 
     [Header("Audio")]
@@ -71,9 +74,11 @@ public class WeaponAttachmentSystem : MonoBehaviour
             if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
             {
                 ChangeBody(weaponBodyListSO.rifleBWeaponBodySO);
+                SpawnBasicWeapon();
             } else if (weaponBodySO == weaponBodyListSO.rifleBWeaponBodySO)
             {
                 ChangeBody(weaponBodyListSO.rifleAWeaponBodySO);
+                SpawnBasicWeapon();
             }
         }
     }
@@ -189,7 +194,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentGrip.transform.localEulerAngles = Vector3.zero;
         currentGrip.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(weaponPartSO);
+        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeStock(WeaponPartSO weaponPartSO)
@@ -206,7 +211,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentStock.transform.localEulerAngles = Vector3.zero;
         currentStock.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(weaponPartSO);
+        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeScope(WeaponPartSO weaponPartSO)
@@ -223,7 +228,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentScope.transform.localEulerAngles = Vector3.zero;
         currentScope.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(weaponPartSO);
+        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeMag(WeaponPartSO weaponPartSO)
@@ -240,7 +245,7 @@ public class WeaponAttachmentSystem : MonoBehaviour
         currentMag.transform.localEulerAngles = Vector3.zero;
         currentMag.transform.localPosition = Vector3.zero;
 
-        ChangeGunStats(weaponPartSO);
+        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeBarrel(WeaponPartSO weaponPartSO) 
@@ -259,14 +264,22 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         float barrelLength = weaponPartSO.prefab.GetComponent<MeshRenderer>().bounds.size.z;
 
-        attackPoint.position = attackPointOrigin.position + attackPointOrigin.forward * barrelLength; 
+        if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
+        {
+            attackPointA.position = attackPointAOrigin.position + attackPointAOrigin.forward * barrelLength;
+        } else
+        {
+            attackPointB.position = attackPointBOrigin.position + attackPointBOrigin.forward * barrelLength; 
+        }
+
+        
 
         if (weaponBodySO == weaponBodyListSO.rifleAWeaponBodySO)
         {
             ChangeMuzzle(weaponPartSO, barrelLength);
         }
 
-        ChangeGunStats(weaponPartSO);
+        weaponCScript.ChangeGunStats(weaponPartSO);
     }
 
     public void ChangeMuzzle(WeaponPartSO weaponPartSO, float barrelLength)
@@ -303,39 +316,6 @@ public class WeaponAttachmentSystem : MonoBehaviour
 
         currentMuzzle.transform.localPosition = currentMuzzle.transform.localPosition + muzzleAAttachPoint.forward * weaponBarrelSO.muzzleOffset;
     }   
-
-    public void ChangeGunStats(WeaponPartSO weaponPartSO)
-    {
-        switch (weaponPartSO.statType)
-        {
-            case WeaponPartSO.StatType.Damage:
-                weaponCScript.increasedDamage = weaponPartSO.statValue;
-                break;
-            
-            case WeaponPartSO.StatType.MagazineSize:
-                weaponCScript.increasedMagazineSize = weaponPartSO.statValue;
-                break;
-            
-            case WeaponPartSO.StatType.Range:
-                weaponCScript.increasedRange = weaponPartSO.statValue;
-                break;
-
-            case WeaponPartSO.StatType.ReloadTime:
-                weaponCScript.increasedReloadTime = weaponPartSO.statValue;
-                break;
-
-            case WeaponPartSO.StatType.Spread:
-                weaponCScript.increasedSpread = weaponPartSO.statValue;
-                break;
-            
-            case WeaponPartSO.StatType.TimeBetweenShots:
-                weaponCScript.decreaseTimeBetweenShots = weaponPartSO.statValue;
-                break;
-            
-            default:
-                break;
-        }        
-    }
 
     public Transform GetPartAttachPoint(WeaponPartSO.PartType partType)
     {
