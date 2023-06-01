@@ -116,9 +116,11 @@ public class PlayerC : MonoBehaviour
         {
             partPickUpTextObject.SetActive(true);
 
+            WeaponPartC partScript = rayHitWeaponPart.collider.GetComponent<WeaponPartC>();
+            partScript.ShowUI();
+
             if (Input.GetKeyDown(weaponPickUpKey))
             {
-                WeaponPartC partScript = rayHitWeaponPart.collider.GetComponent<WeaponPartC>();
                 partScript.Equip();
             }
         } else

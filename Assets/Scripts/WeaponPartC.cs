@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WeaponPartC : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class WeaponPartC : MonoBehaviour
     float partValue;
 
     Transform player;
+    TextMeshProUGUI statTypeText;
+    TextMeshProUGUI weaponTypeText;
 
 
     void Start() 
@@ -92,6 +95,9 @@ public class WeaponPartC : MonoBehaviour
 
         particles.transform.SetParent(transform);
         partCanvas.transform.SetParent(parentObject);
+        SetUI();
+
+
     }
 
     private void Update() 
@@ -149,5 +155,91 @@ public class WeaponPartC : MonoBehaviour
 
         equiping = true;
 
+    }
+
+    private void SetUI()
+    {
+        foreach (TextMeshProUGUI child in partCanvas.GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            switch (child.tag)
+            {
+                case "StatTypeUI":
+                    statTypeText = child;
+                    break;
+
+                case "WeaponTypeUI":
+                    weaponTypeText = child;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        switch (weaponPartSO.statType)
+        {
+            case WeaponPartSO.StatType.Damage:
+                statTypeText.text = "Damage";
+                break;
+
+            case WeaponPartSO.StatType.MagazineSize:
+                statTypeText.text = "Magazine Size";
+                break;
+            
+            case WeaponPartSO.StatType.Range:
+                statTypeText.text = "Range";
+                break;
+            
+            case WeaponPartSO.StatType.ReloadTime:
+                statTypeText.text = "Reload Time";
+                break;
+            
+            case WeaponPartSO.StatType.Spread:
+                statTypeText.text = "Bullet Spread";
+                break;
+
+            case WeaponPartSO.StatType.TimeBetweenShots:
+                statTypeText.text = "Fire Rate";
+                break;
+
+            default:
+                break;
+        }
+
+        switch (weaponPartSO.partType)
+        {
+            case WeaponPartSO.PartType.Grip: 
+                weaponTypeText.text = "Grip";
+                break;
+            
+            case WeaponPartSO.PartType.Stock: 
+                weaponTypeText.text = "Stock";
+                break;
+            
+            case WeaponPartSO.PartType.Scope: 
+                weaponTypeText.text = "Scope";
+                break;
+            
+            case WeaponPartSO.PartType.Barrel: 
+                weaponTypeText.text = "Barrel";
+                break;
+
+            case WeaponPartSO.PartType.Mag: 
+                weaponTypeText.text = "Magazine";
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void ShowUI()
+    {
+        partCanvas.gameObject.SetActive(true);
+    }
+
+    public void HideUI()
+    {
+        partCanvas.gameObject.SetActive(false);
     }
 }

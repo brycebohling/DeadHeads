@@ -21,8 +21,6 @@ public class WeaponPartSO : ScriptableObject
         ReloadTime, 
         TimeBetweenShots,
         MagazineSize, 
-        BulletsPerTap,
-        Nothing,
     }
 
     public PartType partType;

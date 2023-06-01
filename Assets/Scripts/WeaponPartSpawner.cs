@@ -105,8 +105,6 @@ public class WeaponPartSpawner : MonoBehaviour
         }
 
         List<float> sliderValues = RandomValue(listOfPartTypes[randomIndex].statType);
-        Debug.Log(sliderValues[0]);
-        Debug.Log(sliderValues[1]);
 
         partScript.SetPart(listOfPartTypes[randomIndex], attachPoint, rarityParticles, rarityList[rarityListIndex].particleColor, partCanvas, sliderValues);
     }
