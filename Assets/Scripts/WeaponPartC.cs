@@ -32,12 +32,21 @@ public class WeaponPartC : MonoBehaviour
     Color particleColor;
 
     Canvas partCanvas;
+    bool showCanvas;
     Slider valueSlider;
     float partValue;
 
     Transform player;
     TextMeshProUGUI statTypeText;
     TextMeshProUGUI weaponTypeText;
+    Image partInfoBGUI;
+
+    string rarity;
+
+    Color commonColor = new Color(1f, 1f, 1f, 0.4f);
+    Color rareColor = new Color(0f, 0.25f, 0.78f, 0.4f);
+    Color epicColor = new Color(0.5f, 0f, 0.63f, 0.4f);
+    Color legendaryColor = new Color(1f, 0.42f, 0f, 0.4f);
 
 
     void Start() 
@@ -102,6 +111,15 @@ public class WeaponPartC : MonoBehaviour
 
     private void Update() 
     {
+        if (showCanvas)
+        {
+            partCanvas.gameObject.SetActive(true);
+        } else
+        {
+            partCanvas.gameObject.SetActive(false);
+        }
+
+        showCanvas = false;
 
         if (equiping)
         {
@@ -130,13 +148,14 @@ public class WeaponPartC : MonoBehaviour
         partCanvas.transform.LookAt(player);
     }
 
-    public void SetPart(WeaponPartSO part, Transform equipPoint, GameObject particles, Color color, Canvas canvas, List<float> values)
+    public void SetPart(WeaponPartSO part, Transform equipPoint, string rarityName, GameObject particles, Color color, Canvas canvas, List<float> values)
     {
         weaponPartSO = part;
         gameObject.layer = LayerMask.NameToLayer("PickUpLayer");
         attachPoint = equipPoint;
         rarityParticles = particles;
         particleColor = color;
+        rarity = rarityName;
 
         partCanvas = Instantiate(canvas, transform.position, Quaternion.identity);
         // Parents partCanvas in the start func
@@ -176,6 +195,44 @@ public class WeaponPartC : MonoBehaviour
             }
         }
 
+        foreach (Image child in partCanvas.GetComponentsInChildren<Image>())
+        {
+            
+            switch (child.tag)
+            {
+                case "PartInfoBGUI":
+                    partInfoBGUI = child;
+                    Debug.Log("g");
+                    break;
+            }
+        }
+
+        switch (weaponPartSO.partType)
+        {
+            case WeaponPartSO.PartType.Grip: 
+                weaponTypeText.text = "Grip";
+                break;
+            
+            case WeaponPartSO.PartType.Stock: 
+                weaponTypeText.text = "Stock";
+                break;
+            
+            case WeaponPartSO.PartType.Scope: 
+                weaponTypeText.text = "Scope";
+                break;
+            
+            case WeaponPartSO.PartType.Barrel: 
+                weaponTypeText.text = "Barrel";
+                break;
+
+            case WeaponPartSO.PartType.Mag: 
+                weaponTypeText.text = "Magazine";
+                break;
+
+            default:
+                break;
+        }
+
         switch (weaponPartSO.statType)
         {
             case WeaponPartSO.StatType.Damage:
@@ -206,40 +263,33 @@ public class WeaponPartC : MonoBehaviour
                 break;
         }
 
-        switch (weaponPartSO.partType)
+        switch (rarity)
         {
-            case WeaponPartSO.PartType.Grip: 
-                weaponTypeText.text = "Grip";
+            case "Common":
+                partInfoBGUI.color = commonColor;
                 break;
             
-            case WeaponPartSO.PartType.Stock: 
-                weaponTypeText.text = "Stock";
+            case "Rare":
+                partInfoBGUI.color = rareColor;
                 break;
             
-            case WeaponPartSO.PartType.Scope: 
-                weaponTypeText.text = "Scope";
+            case "Epic":
+                partInfoBGUI.color = epicColor;
                 break;
             
-            case WeaponPartSO.PartType.Barrel: 
-                weaponTypeText.text = "Barrel";
-                break;
-
-            case WeaponPartSO.PartType.Mag: 
-                weaponTypeText.text = "Magazine";
+            case "Legendary":
+                partInfoBGUI.color = legendaryColor;
                 break;
 
             default:
                 break;
         }
+
+        
     }
 
     public void ShowUI()
     {
-        partCanvas.gameObject.SetActive(true);
-    }
-
-    public void HideUI()
-    {
-        partCanvas.gameObject.SetActive(false);
+        showCanvas = true;
     }
 }

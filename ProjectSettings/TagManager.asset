@@ -9,6 +9,7 @@ TagManager:
   - ArmPivot
   - StatTypeUI
   - WeaponTypeUI
+  - PartInfoBGUI
   layers:
   - Default
   - TransparentFX

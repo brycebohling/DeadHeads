@@ -125,7 +125,7 @@ public class PlayerC : MonoBehaviour
             }
         } else
         {
-            partPickUpTextObject.SetActive(false);
+            partPickUpTextObject.SetActive(false);    
         }
     }
 

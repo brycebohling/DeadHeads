@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partType: 3
   prefab: {fileID: 1732225824790526, guid: 5ea910ac373fcf64bb27d7ace5a8c540, type: 3}
-  statType: 2
-  statValue: 60
+  statType: 0
   muzzleOffset: 0
