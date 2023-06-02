@@ -202,7 +202,6 @@ public class WeaponPartC : MonoBehaviour
             {
                 case "PartInfoBGUI":
                     partInfoBGUI = child;
-                    Debug.Log("g");
                     break;
             }
         }
