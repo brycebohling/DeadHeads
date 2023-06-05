@@ -254,6 +254,7 @@ public class WeaponC : MonoBehaviour
     private void InitializeStats()
     {
         bulletsLeft = baseMagazineSize;
+        magazineSize = baseMagazineSize;
         reloadTime = baseReloadTime;
         damage = baseDamage;
         range = baseRange;

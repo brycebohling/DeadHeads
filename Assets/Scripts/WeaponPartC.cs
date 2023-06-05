@@ -169,7 +169,6 @@ public class WeaponPartC : MonoBehaviour
         } else
         {
             valueSlider.value = Mathf.Abs(values[0] - 1) / values[1];
-            Debug.Log(Mathf.Abs(values[0] - 1));
         }
     
         partValue = values[0];
