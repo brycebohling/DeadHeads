@@ -235,20 +235,20 @@ public class WeaponC : MonoBehaviour
                 break;
 
             case WeaponPartSO.StatType.ReloadTime:
-                reloadTime = baseReloadTime - value;
+                reloadTime = baseReloadTime * value;
                 break;
 
             case WeaponPartSO.StatType.Spread:
-                spread = baseSpread - value;
+                spread = baseSpread * value;
                 break;
             
             case WeaponPartSO.StatType.TimeBetweenShots:
-                timeBetweenShots = baseTimeBetweenShots - value;
+                timeBetweenShots = baseTimeBetweenShots * value;
                 break;
 
             default:
                 break;
-        }               
+        }
     }
 
     private void InitializeStats()

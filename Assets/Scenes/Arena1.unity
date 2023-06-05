@@ -3438,12 +3438,109 @@ MonoBehaviour:
   magSizeStatHigh: 10
   rangeStatLow: 1
   rangeStatHigh: 10
-  reloadSpeedStatLow: 0.01
-  reloadSpeedStatHigh: 0.5
-  spreadStatLow: 0.01
+  reloadSpeedStatLow: 0.9
+  reloadSpeedStatHigh: 0.1
+  spreadStatLow: 0.9
   spreadStatHigh: 0.1
-  timeBetweenShotsStatLow: 0.01
-  timeBetweenShotsStatHigh: 0.05
+  timeBetweenShotsStatLow: 0.9
+  timeBetweenShotsStatHigh: 0.1
+  rarityStatsList:
+  - rarityName: Common
+    statType: Damage
+    statLow: 1
+    statHigh: 3
+  - rarityName: Rare
+    statType: Damage
+    statLow: 4
+    statHigh: 6
+  - rarityName: Epic
+    statType: Damage
+    statLow: 7
+    statHigh: 9
+  - rarityName: Legendary
+    statType: Damage
+    statLow: 10
+    statHigh: 10
+  - rarityName: Common
+    statType: MagSize
+    statLow: 1
+    statHigh: 5
+  - rarityName: Rare
+    statType: MagSize
+    statLow: 6
+    statHigh: 10
+  - rarityName: Epic
+    statType: MagSize
+    statLow: 11
+    statHigh: 15
+  - rarityName: Legendary
+    statType: MagSize
+    statLow: 16
+    statHigh: 20
+  - rarityName: Common
+    statType: Range
+    statLow: 10
+    statHigh: 20
+  - rarityName: Rare
+    statType: Range
+    statLow: 21
+    statHigh: 30
+  - rarityName: Epic
+    statType: Range
+    statLow: 31
+    statHigh: 40
+  - rarityName: Legendary
+    statType: Range
+    statLow: 41
+    statHigh: 50
+  - rarityName: Common
+    statType: Spread
+    statLow: 1
+    statHigh: 0.9
+  - rarityName: Rare
+    statType: Spread
+    statLow: 0.89
+    statHigh: 0.85
+  - rarityName: Epic
+    statType: Spread
+    statLow: 0.84
+    statHigh: 0.8
+  - rarityName: Legendary
+    statType: Spread
+    statLow: 0.79
+    statHigh: 0.75
+  - rarityName: Common
+    statType: ReloadTime
+    statLow: 1
+    statHigh: 0.9
+  - rarityName: Rare
+    statType: ReloadTime
+    statLow: 0.89
+    statHigh: 0.8
+  - rarityName: Epic
+    statType: ReloadTime
+    statLow: 0.79
+    statHigh: 0.7
+  - rarityName: Legendary
+    statType: ReloadTime
+    statLow: 0.69
+    statHigh: 0.6
+  - rarityName: Common
+    statType: TimeBetweenShots
+    statLow: 1
+    statHigh: 0.9
+  - rarityName: Rare
+    statType: TimeBetweenShots
+    statLow: 0.89
+    statHigh: 0.8
+  - rarityName: Epic
+    statType: TimeBetweenShots
+    statLow: 0.79
+    statHigh: 0.7
+  - rarityName: Legendary
+    statType: TimeBetweenShots
+    statLow: 0.69
+    statHigh: 0.6
   WeaponPartSpawn: {fileID: 641938129}
   rarityParticles: {fileID: 8356209843970906082, guid: b676fa1cf3f2b4507bd011b4f70b3144,
     type: 3}

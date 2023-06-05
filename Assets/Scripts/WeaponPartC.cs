@@ -42,6 +42,7 @@ public class WeaponPartC : MonoBehaviour
     Image partInfoBGUI;
 
     string rarity;
+    bool isValuePercent;
 
     Color commonColor = new Color(1f, 1f, 1f, 0.4f);
     Color rareColor = new Color(0f, 0.25f, 0.78f, 0.4f);
@@ -148,7 +149,7 @@ public class WeaponPartC : MonoBehaviour
         partCanvas.transform.LookAt(player);
     }
 
-    public void SetPart(WeaponPartSO part, Transform equipPoint, string rarityName, GameObject particles, Color color, Canvas canvas, List<float> values)
+    public void SetPart(WeaponPartSO part, Transform equipPoint, string rarityName, GameObject particles, Color color, Canvas canvas, List<float> values, bool valueVarType)
     {
         weaponPartSO = part;
         gameObject.layer = LayerMask.NameToLayer("PickUpLayer");
@@ -156,11 +157,21 @@ public class WeaponPartC : MonoBehaviour
         rarityParticles = particles;
         particleColor = color;
         rarity = rarityName;
+        isValuePercent = valueVarType;
 
         partCanvas = Instantiate(canvas, transform.position, Quaternion.identity);
         // Parents partCanvas in the start func
         valueSlider = partCanvas.GetComponentInChildren<Slider>();
-        valueSlider.value = values[0] / values[1];
+
+        if (!isValuePercent)
+        {
+            valueSlider.value = values[0] / values[1];
+        } else
+        {
+            valueSlider.value = Mathf.Abs(values[0] - 1) / values[1];
+            Debug.Log(Mathf.Abs(values[0] - 1));
+        }
+    
         partValue = values[0];
     }
 

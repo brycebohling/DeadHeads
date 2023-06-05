@@ -7,19 +7,27 @@ public class WeaponPartSpawner : MonoBehaviour
 {
     [SerializeField] WeaponAttachmentSystem weaponAttachmentSystemScript;
 
-    [Header("Stat Raneges")]
-    [SerializeField] int damgeStatLow;
-    [SerializeField] int damgeStatHigh;
-    [SerializeField] int magSizeStatLow;
-    [SerializeField] int magSizeStatHigh;
-    [SerializeField] int rangeStatLow;
-    [SerializeField] int rangeStatHigh;
-    [SerializeField] float reloadSpeedStatLow;
-    [SerializeField] float reloadSpeedStatHigh;
-    [SerializeField] float spreadStatLow;
-    [SerializeField] float spreadStatHigh;
-    [SerializeField] float timeBetweenShotsStatLow;
-    [SerializeField] float timeBetweenShotsStatHigh;
+    // Stat Maxes
+    float maxDamgeStat;
+    float maxMagSizeStat;
+    float maxRangeStat;
+
+    // These are %
+    float maxReloadSpeedStat;
+    float maxSpreadStat;
+    float maxTimeBetweenShotsStat;
+
+    [System.Serializable] public struct RarityStatsList
+    {
+        public string rarityName;
+        public string statType;
+        public float statLow;
+        public float statHigh;
+    }
+
+    [SerializeField] List<RarityStatsList> rarityStatsList;
+
+    bool isValuePercent;
 
     [SerializeField] Transform WeaponPartSpawn;
 
@@ -38,8 +46,64 @@ public class WeaponPartSpawner : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] Canvas partCanvas;
-    
 
+    
+     private void Start() 
+    {
+        foreach(RarityStatsList thing in rarityStatsList)
+        {
+            switch (thing.statType)
+            {
+                case "Damage":
+                    if (thing.statHigh > maxDamgeStat)
+                    {
+                        maxDamgeStat = thing.statHigh;
+                    }                    
+                    break;
+                
+                case "MagSize":
+                    if (thing.statHigh > maxMagSizeStat)
+                    {
+                        maxMagSizeStat = thing.statHigh;
+                    }                    
+                    break;
+
+                case "Range":
+                    if (thing.statHigh > maxRangeStat)
+                    {
+                        maxRangeStat = thing.statHigh;
+                    }                    
+                    break;
+                
+                // These are % so small is big
+                case "ReloadTime":
+                    if (Mathf.Abs(thing.statHigh - 1) > maxReloadSpeedStat)
+                    {
+                        maxReloadSpeedStat = Mathf.Abs(thing.statHigh - 1);
+                    }                    
+                    break;
+                
+                case "Spread":
+                    if (Mathf.Abs(thing.statHigh - 1) > maxSpreadStat)
+                    {
+                        maxSpreadStat = Mathf.Abs(thing.statHigh - 1);
+                    }                    
+                    break;
+                
+                case "TimeBetweenShots":
+                    if (Mathf.Abs(thing.statHigh - 1) > maxTimeBetweenShotsStat)
+                    {
+                        maxTimeBetweenShotsStat = Mathf.Abs(thing.statHigh - 1);
+                    }                    
+                    break;
+                
+                default:    
+                    Debug.Log("Should not run thing ever");
+                    break;
+            }
+        }
+    }
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -104,50 +168,115 @@ public class WeaponPartSpawner : MonoBehaviour
             }
         }
 
-        List<float> sliderValues = RandomValue(listOfPartTypes[randomIndex].statType);
+        List<RarityStatsList> partStatsForSelectedRarity = new List<RarityStatsList>();
 
-        partScript.SetPart(listOfPartTypes[randomIndex], attachPoint, rarityList[rarityListIndex].rarityName, rarityParticles, rarityList[rarityListIndex].particleColor, partCanvas, sliderValues);
+        // Adds all the correct raritys to a list
+        foreach (RarityStatsList rarityStat in rarityStatsList)
+        {
+            if (rarityStat.rarityName == rarityList[rarityListIndex].rarityName)
+            {
+                partStatsForSelectedRarity.Add(rarityStat);
+            }
+        }
+
+        List<float> sliderValues = RandomValue(listOfPartTypes[randomIndex].statType, partStatsForSelectedRarity);
+
+        partScript.SetPart(listOfPartTypes[randomIndex], attachPoint, rarityList[rarityListIndex].rarityName, rarityParticles, rarityList[rarityListIndex].particleColor, partCanvas, sliderValues, isValuePercent);
     }
 
-    private List<float> RandomValue(WeaponPartSO.StatType statType)
+    private List<float> RandomValue(WeaponPartSO.StatType statType, List<RarityStatsList> statList)
     {
         List<float> sliderValues = new List<float>();
 
         switch (statType)
         {
             case WeaponPartSO.StatType.Damage:
-                sliderValues.Add(Random.Range(damgeStatLow, damgeStatHigh));
-                sliderValues.Add(damgeStatHigh);
+                foreach (RarityStatsList rarityStat in statList)
+                {
+                    if (rarityStat.statType == "Damage")
+                    {
+                        int low = Mathf.RoundToInt(rarityStat.statLow);
+                        int high = Mathf.RoundToInt(rarityStat.statHigh);
+                        sliderValues.Add(Random.Range(low, high));
+                        sliderValues.Add(maxDamgeStat);
+                    }
+                }
+
+                isValuePercent = false;
                 return sliderValues;
             
             case WeaponPartSO.StatType.MagazineSize:
-                sliderValues.Add(Random.Range(magSizeStatLow, magSizeStatHigh));
-                sliderValues.Add(magSizeStatHigh);
+                foreach(RarityStatsList rarityStat in statList)
+                {
+                    if (rarityStat.statType == "MagSize")
+                    {
+                        int low = Mathf.RoundToInt(rarityStat.statLow);
+                        int high = Mathf.RoundToInt(rarityStat.statHigh);
+                        sliderValues.Add(Random.Range(low, high));
+                        sliderValues.Add(maxMagSizeStat);
+                    }
+                }
+
+                isValuePercent = false;
                 return sliderValues;
    
             case WeaponPartSO.StatType.Range:   
-                sliderValues.Add(Random.Range(rangeStatLow, rangeStatHigh));
-                sliderValues.Add(rangeStatHigh);
+                foreach(RarityStatsList rarityStat in statList)
+                {
+                    if (rarityStat.statType == "Range")
+                    {
+                        int low = Mathf.RoundToInt(rarityStat.statLow);
+                        int high = Mathf.RoundToInt(rarityStat.statHigh);
+                        sliderValues.Add(Random.Range(low, high));
+                        sliderValues.Add(maxRangeStat);
+                    }
+                }
+
+                isValuePercent = false;
                 return sliderValues;
-        
+
+            // Next 3 are stat type that are % so big is small
             case WeaponPartSO.StatType.Spread:
-                sliderValues.Add(Random.Range(spreadStatLow, spreadStatHigh));
-                sliderValues.Add(spreadStatHigh);
+                foreach(RarityStatsList rarityStat in statList)
+                {
+                    if (rarityStat.statType == "Spread")
+                    {
+                        sliderValues.Add(Random.Range(rarityStat.statHigh, rarityStat.statLow));
+                        sliderValues.Add(maxSpreadStat);
+                    }
+                }
+
+                isValuePercent = true;
                 return sliderValues;
 
             case WeaponPartSO.StatType.ReloadTime:
-                sliderValues.Add(Random.Range(reloadSpeedStatLow, reloadSpeedStatHigh));
-                sliderValues.Add(reloadSpeedStatHigh);
+                foreach(RarityStatsList rarityStat in statList)
+                {
+                    if (rarityStat.statType == "ReloadTime")
+                    {
+                        sliderValues.Add(Random.Range(rarityStat.statHigh, rarityStat.statLow));
+                        sliderValues.Add(maxReloadSpeedStat);
+                    }
+                }
+
+                isValuePercent = true;
                 return sliderValues;
 
             case WeaponPartSO.StatType.TimeBetweenShots:
-                sliderValues.Add(Random.Range(timeBetweenShotsStatLow, timeBetweenShotsStatHigh));
-                sliderValues.Add(timeBetweenShotsStatHigh);
+                foreach(RarityStatsList rarityStat in statList)
+                {
+                    if (rarityStat.statType == "TimeBetweenShots")
+                    {
+                        sliderValues.Add(Random.Range(rarityStat.statHigh, rarityStat.statLow));
+                        sliderValues.Add(maxTimeBetweenShotsStat);
+                    }
+                }
+
+                isValuePercent = true;
                 return sliderValues;
 
             default:
-                sliderValues.Add(1);
-                sliderValues.Add(100);
+                Debug.Log("WeaponPartSpawnerError");
                 return sliderValues;
         }
     }
