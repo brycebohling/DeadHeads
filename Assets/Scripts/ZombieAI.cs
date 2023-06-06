@@ -8,11 +8,10 @@ public class ZombieAI : MonoBehaviour
     NavMeshAgent agent;
 
     [SerializeField] Transform player; 
-
     [SerializeField] LayerMask whatIsGround, whatIsPlayer; 
 
     //Patrolling
-    [SerializeField] Vector3 walkPoint; 
+    Vector3 walkPoint; 
     bool walkPointSet; 
     [SerializeField] float walkPointRange; 
 
@@ -22,7 +21,7 @@ public class ZombieAI : MonoBehaviour
 
     //States 
     [SerializeField] float sightRange, attackRange;
-    [SerializeField] bool playerInSightRange, playerInAttackRange; 
+    bool playerInSightRange, playerInAttackRange; 
 
     private void Awake()
     {
@@ -47,7 +46,6 @@ public class ZombieAI : MonoBehaviour
         {
             AttackPlayer();
         }
-
     }
 
     private void Patrolling() 
@@ -67,8 +65,6 @@ public class ZombieAI : MonoBehaviour
         {
             walkPointSet = false; 
         }
-
-        
     }
 
     private void SearchWalkPoint()
@@ -95,11 +91,16 @@ public class ZombieAI : MonoBehaviour
         //make sure zombie doesnt move 
         agent.SetDestination(transform.position); 
 
-        transform.LookAt(player); 
+        Vector3 playerPos = new Vector3(player.position.x, 0, player.position.z);
+        Vector3 thisPos = new Vector3(transform.position.x, 0, transform.position.z);
+
+        Vector3 lookVector = playerPos - thisPos;
+        Quaternion rot = Quaternion.LookRotation(lookVector);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, 0.1f);
 
         if (!alreadyAttacked)
         { 
-            // Attack Code here
+            Debug.Log("attack");
 
             alreadyAttacked = true; 
             Invoke("ResetAttack", timeBetweenAttacks); 
