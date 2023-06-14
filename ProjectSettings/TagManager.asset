@@ -10,6 +10,7 @@ TagManager:
   - StatTypeUI
   - WeaponTypeUI
   - PartInfoBGUI
+  - Zombie
   layers:
   - Default
   - TransparentFX

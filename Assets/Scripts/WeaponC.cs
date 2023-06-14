@@ -126,21 +126,20 @@ public class WeaponC : MonoBehaviour
 
         if (hitEnemy)
         {
-            shootingEnemyScript.DmgEnemy(damage, rayHitEnemy.collider);
+            shootingEnemyScript.DmgEnemy(damage, rayHitEnemy.collider, rayHitEnemy.point);
             TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, rayHitEnemy));
 
-            GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHitEnemy.point, Quaternion.LookRotation(rayHitEnemy.normal));
-    
-            Destroy(bulletHole, 5);
+            // GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHitEnemy.point, Quaternion.LookRotation(rayHitEnemy.normal));
+            // Destroy(bulletHole, 5);
             
         } else if (hitSomthing)
         {
             TrailRenderer trail = Instantiate(bulletTrail, attackPoint.position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, rayHitSomething));
             
-            GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHitSomething.point, Quaternion.LookRotation(rayHitSomething.normal));
-            Destroy(bulletHole, 5);
+            // GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHitSomething.point, Quaternion.LookRotation(rayHitSomething.normal));
+            // Destroy(bulletHole, 5);
         }
 
         //ShakeCamera

@@ -26,6 +26,13 @@ public class PlayerC : MonoBehaviour
     [SerializeField] LayerMask ground;
     [SerializeField] float groundCheckSize;
 
+    [Header("Health")]
+    [SerializeField] float maxHealth;
+    float currentHealth;
+    [SerializeField] float iFrameTime;
+    bool invincible;
+    public bool isDead;
+
     [Header("WeaponPickUp")]
     [SerializeField] LayerMask pickUpLayer;
     [SerializeField] Camera mainCamera;
@@ -46,11 +53,17 @@ public class PlayerC : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         playerSpeed = playerWalkSpeed;
+        currentHealth = maxHealth;
         
     }
 
     private void Update()
     {
+        if (isDead)
+        {
+            Debug.Log("Dead");
+        }
+
         HandleRunning();
         LookingAtWeaponPart();
 
@@ -127,6 +140,28 @@ public class PlayerC : MonoBehaviour
         {
             partPickUpTextObject.SetActive(false);    
         }
+    }
+
+    public void DamagePlayer(float dmg)
+    {
+        if (!invincible)
+        {
+            Debug.Log("hit");
+            currentHealth -= dmg;
+
+            if (currentHealth <= 0)
+            {
+                isDead = true;
+            }
+
+            invincible = true;
+            Invoke("ResetInvincible", iFrameTime);
+        }
+    }
+
+    private void ResetInvincible()
+    {
+        invincible = false;
     }
 
     private void OnDrawGizmos() 
